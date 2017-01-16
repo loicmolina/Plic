@@ -1,5 +1,7 @@
 package plic.arbre.expression;
 
+import plic.exceptions.AnalyseSemantiqueException;
+
 /**
  * 3 déc. 2015
  *
@@ -19,8 +21,8 @@ public class Different extends Comparaison {
 
 	@Override
 	public void verifier() {
-		if (gauche.getType()==droite.getType())	{
-			
+		if (gauche.getType()!=droite.getType())	{
+			throw new AnalyseSemantiqueException("Les deux expréssion ne sont pas du même type");
 		}
 	}
   
