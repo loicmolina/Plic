@@ -19,11 +19,16 @@ public class Different extends Comparaison {
         return " != ";
     }
 
-	@Override
-	public void verifier() {
-		if (gauche.getType()!=droite.getType())	{
-			throw new AnalyseSemantiqueException("Les deux expréssion ne sont pas du même type");
-		}
-	}
-  
+    public String toMIPS(){
+    	StringBuilder res=new StringBuilder();
+    	res.append("#-----Inégalité-----\n");
+    	res.append(gauche.toMIPS());
+    	res.append("sw $v0,($sp)\n");
+    	res.append("add $sp,$sp, -4\n");
+    	res.append(droite.toMIPS());
+    	res.append("add $sp,$sp, 4\n");
+    	res.append("lw $t8,($sp)\n");
+    	res.append("sne $v0,$t8,$v0\n\n");
+    	return res.toString();
+    }
 }

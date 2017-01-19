@@ -14,7 +14,6 @@ public abstract class Constante extends Expression {
         super(n) ;
         cste = texte ;
     }
-   
 
     @Override
     public String toString() {

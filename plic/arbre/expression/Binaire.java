@@ -17,7 +17,7 @@ public abstract class Binaire extends Expression {
         this.droite = droite;
     }
     
-    public abstract String operateur() ;
+    public abstract String operateur() ;    
 
     @Override
     public String toString() {

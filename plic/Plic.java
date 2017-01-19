@@ -21,7 +21,9 @@ public class Plic {
         try {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(fichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
+            arbre.verifier();
             System.err.println("expression stockée dans l'arbre : " + arbre);
+            System.out.println(arbre.toMIPS());
             
             
         } 

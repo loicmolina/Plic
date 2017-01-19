@@ -14,11 +14,23 @@ public class ConstanteBool extends Constante {
     
 	@Override
 	public void verifier() {
+		
 	}
 
 	@Override
 	protected String getType() {		
 		return "bool";
+	}
+
+	@Override
+	public String toMIPS() {
+		String s="";
+		if (this.cste.equals("vrai")){
+			s="li $v0,1\n";
+		}else{
+			s="li $v0,0\n";
+		}		
+		return s;
 	}
 
 }

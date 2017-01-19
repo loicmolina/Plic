@@ -16,5 +16,4 @@ public class OuLogique extends BinaireLogique {
     public String operateur() {
         return " ou " ;
     }
-
 }
