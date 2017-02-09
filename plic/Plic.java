@@ -27,7 +27,7 @@ public class Plic {
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
             arbre.verifier();
             
-            System.err.println("expression stockée dans l'arbre : " + arbre + "\n");
+            //System.err.println("expression stockée dans l'arbre : " + arbre + "\n");
             //System.out.println(arbre.toMIPS());
             
             StringBuilder strng=new StringBuilder(".text\nmain :\n");
@@ -37,6 +37,8 @@ public class Plic {
             		"li $v0, 10 \t # retour au système\n" +
             		"syscall\n");
             
+
+            System.out.println("Compilation OK");
             write(fichier.substring(0,fichier.length()-4),strng.toString());
         } 
         catch (FileNotFoundException ex) {
