@@ -40,6 +40,7 @@ espace = {finDeLigne}  | [ \t\f]
 
 
 ";"					{ return symbol(CodesLexicaux.POINTVIRGULE); }
+","					{ return symbol(CodesLexicaux.VIRGULE); }
 
 "+"                	{ return symbol(CodesLexicaux.PLUS); }
 "-"                	{ return symbol(CodesLexicaux.MOINS); }
@@ -58,10 +59,15 @@ espace = {finDeLigne}  | [ \t\f]
 "("                	{ return symbol(CodesLexicaux.PAROUV); }
 ")"                	{ return symbol(CodesLexicaux.PARFER); }
 
+"classe"			{ return symbol(CodesLexicaux.CLASS); }
+"fin"				{ return symbol(CodesLexicaux.FIN); }
+
 "publique" 			{ return symbol(CodesLexicaux.PUBLIQUE); }
 "privee"			{ return symbol(CodesLexicaux.PRIVEE); }
 
 "entier" 			{ return symbol(CodesLexicaux.ENTIER); }
+
+
 
 
 {csteE}      	        { return symbol(CodesLexicaux.CONSTANTEINT, yytext()); }

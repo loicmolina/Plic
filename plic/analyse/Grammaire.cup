@@ -29,12 +29,15 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.EGALEGAL), "==") ;
         lesTerminaux.put(new Integer(CodesLexicaux.DIFF), "!=") ;
         lesTerminaux.put(new Integer(CodesLexicaux.POINTVIRGULE), ";") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.VIRGULE), ",") ;
         lesTerminaux.put(new Integer(CodesLexicaux.ET), "et") ;
         lesTerminaux.put(new Integer(CodesLexicaux.OU), "ou") ;
         lesTerminaux.put(new Integer(CodesLexicaux.NON), "non") ;
         lesTerminaux.put(new Integer(CodesLexicaux.PUBLIQUE), "publique") ;
         lesTerminaux.put(new Integer(CodesLexicaux.PRIVEE), "privee") ;
         lesTerminaux.put(new Integer(CodesLexicaux.ENTIER), "entier") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.CLASS), "classe") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         
 
         StringBuffer m = new StringBuffer() ;
@@ -73,16 +76,20 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE;
+terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE;
 terminal Symbol    SUP, INF, EGALEGAL, DIFF, ET, OU, NON;
-terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER;
+terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,FIN,CLASS;
    
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG ;
+non terminal ArbreAbstrait PROG;
 non terminal Expression EXPR, CSTE;
 non terminal String TYPE, STATUT;
-non terminal Declaration DECL;
+non terminal Declaration DECL_CHAMP, DECLARATION;
+non terminal ListeDeclaration LDECL;
+non terminal Classe CLASSE;
+non terminal ListeIdf LIDF;
+
 
 precedence left INF, SUP ;
 precedence left EGALEGAL, DIFF;
@@ -96,21 +103,57 @@ precedence left NON ;
  
 start with PROG ;
 
-PROG    ::=    	EXPR:e 
+PROG    ::=  /*  	EXPR:e 
                 {: BlocDInstructions arbre = new BlocDInstructions(eleft+1) ;
                    arbre.ajouter(e) ;
                    RESULT = arbre ; :}
-         |
-         		DECL:d 
-         		{: BlocDInstructions arbre = new BlocDInstructions(dleft+1) ;
-                   arbre.ajouter(d) ;
+         |*/
+         		CLASSE:c
+         		{: BlocDInstructions arbre = new BlocDInstructions(cleft+1) ;
+                   arbre.ajouter(c) ;
                    RESULT = arbre ; :}         
                 ;
+                
+          
+CLASSE ::=		CLASS IDF:i LDECL:l FIN
+				{: 	Classe c = new Classe(ileft+1,i,l);	
+					RESULT = c ;:}
+				;		
+				
+				
+LDECL ::=		LDECL:l DECLARATION:d
+				{: 	l.ajouter(d);
+				RESULT = l; :}
+		|
+				DECLARATION:d 
+         		{: ListeDeclaration ld = new ListeDeclaration(dleft+1);
+                   ld.ajouter(d) ;
+                   RESULT = ld ; :}         
+                ;
+				
+				
+				
+DECLARATION ::= DECL_CHAMP:d
+			{: RESULT = d; :}
+			;
 
-DECL   	::= 	STATUT:s TYPE:t IDF:i POINTVIRGULE
-				{:	 TDS.getInstance().ajouter(new Entree(i), new Symbole(t,s));
-					RESULT = new Declaration(ileft+1); :}
-				;
+DECL_CHAMP ::= 	STATUT:s TYPE:t LIDF:li POINTVIRGULE
+				{:	for(Idf i : li.getIterIdf()){
+					TDS.getInstance().ajouter(new Entree(i), new Symbole(t,s));					
+					RESULT = new Declaration(sleft+1);
+					} :}
+			;
+				
+LIDF	::=		LIDF:l VIRGULE IDF:i
+				{: 	l.ajouter(new Idf(ileft+1,i));
+				RESULT = l; :}
+				
+			|
+				IDF:i
+				{: ListeIdf li = new ListeIdf(ileft+1);
+                   li.ajouter(new Idf(ileft+1,i)) ;
+                   RESULT = li ; :}         
+                ;
 				
 STATUT 	::= 	PUBLIQUE:p 
 				{: RESULT = p; :}
@@ -122,6 +165,8 @@ STATUT 	::= 	PUBLIQUE:p
 TYPE 	::= 	ENTIER:e 
 				{: RESULT = e; :}
 				;
+
+
 
     
 EXPR    ::=     EXPR:g  PLUS  EXPR:d
