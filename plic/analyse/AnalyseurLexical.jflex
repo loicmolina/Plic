@@ -31,6 +31,8 @@ import plic.exceptions.AnalyseLexicaleException;
 idf = [a-zA-Z][a-zA-Z0-9]*
 csteE = [0-9]+
 csteB = "vrai" | "faux"
+guigui = [\"\"] | [^\"]
+csteC = [\"]{guigui}*[\"]
 
 
 finDeLigne = \r|\n
@@ -48,6 +50,7 @@ espace = {finDeLigne}  | [ \t\f]
 "/"                	{ return symbol(CodesLexicaux.DIV); }
 
 "=="                    { return symbol(CodesLexicaux.EGALEGAL); }
+"="                    { return symbol(CodesLexicaux.EGAL); }
 "!="                    { return symbol(CodesLexicaux.DIFF); }
 "<"                	{ return symbol(CodesLexicaux.INF); }
 ">"                	{ return symbol(CodesLexicaux.SUP); }
@@ -66,12 +69,14 @@ espace = {finDeLigne}  | [ \t\f]
 "privee"			{ return symbol(CodesLexicaux.PRIVEE); }
 
 "entier" 			{ return symbol(CodesLexicaux.ENTIER); }
+"ecrire" 			{ return symbol(CodesLexicaux.WRITE); }
 
 
 
 
 {csteE}      	        { return symbol(CodesLexicaux.CONSTANTEINT, yytext()); }
 {csteB}      	        { return symbol(CodesLexicaux.CONSTANTEBOOL, yytext()); }
+{csteC}      	        { return symbol(CodesLexicaux.CONSTANTECHAINE, yytext()); }
 
 {idf}      	        { return symbol(CodesLexicaux.IDF, yytext()); }
 

@@ -1,24 +1,22 @@
 package plic.arbre.declaration;
 
-import java_cup.runtime.Symbol;
 import plic.arbre.ArbreAbstrait;
 
-public class Idf extends ArbreAbstrait{
-	public String nom;
-	public Symbol symbole;
+public class Acces extends ArbreAbstrait{
+	protected Idf idf;
 
-	public Idf(int no, String n) {
+	public Acces(int no, Idf i) {
 		super(no);
-		nom = n ;
+		idf=i;
 	}
 
-	public String getNom(){
-		return nom;
+	public Idf getIdf(){
+		return idf;
 	}
 	
 	@Override
 	public void verifier() {
-		
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -27,5 +25,5 @@ public class Idf extends ArbreAbstrait{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
