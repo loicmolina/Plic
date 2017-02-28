@@ -32,7 +32,7 @@ import plic.exceptions.AnalyseLexicaleException;
 idf = [a-zA-Z][a-zA-Z0-9]*
 csteE = [0-9]+
 csteB = "vrai" | "faux"
-guigui = [\"\"] | [^\"]
+guigui = [^\"] | [\"][\"]
 csteC = [\"]{guigui}*[\"]
 public = "publique"
 private = "privee"

@@ -33,10 +33,10 @@ public class Ecrire extends Instruction {
 		if(expression == null){
 			sb.append("#----Ecriture d'une chaine de caractère----\n");
 			sb.append(".data\n");
-			sb.append("str :\t .asciiz "+csteChaine.replace("\"\"", "\\\"")+"\n");
+			sb.append("str"+this.hashCode()+" :\t .asciiz "+csteChaine.replace("\"\"", "\\\"")+"\n");
 			sb.append(".text\n");
 			sb.append("li $v0, 4\n");
-			sb.append("la $a0, str\n");
+			sb.append("la $a0, str"+this.hashCode()+"\n");
 			sb.append("syscall\n");
 		}
 		if(csteChaine == null){
