@@ -14,7 +14,7 @@ public class Classe extends ArbreAbstrait {
 
 	@Override
 	public void verifier() {
-		// TODO Auto-generated method stub
+		ld.verifier();
 		
 	}
 

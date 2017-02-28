@@ -16,7 +16,7 @@ public abstract class Comparaison extends Binaire {
     
     
     
-    protected String getType() {
+    public String getType() {
 		return "bool";
 	}
     

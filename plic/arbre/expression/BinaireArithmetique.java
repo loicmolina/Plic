@@ -14,7 +14,7 @@ public abstract class BinaireArithmetique extends Binaire {
         super(gauche, droite) ;
     }
     
-    protected String getType() {
+    public String getType() {
 		return "int";
 	}
  

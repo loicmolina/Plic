@@ -18,7 +18,7 @@ public class ConstanteBool extends Constante {
 	}
 
 	@Override
-	protected String getType() {		
+	public String getType() {		
 		return "bool";
 	}
 

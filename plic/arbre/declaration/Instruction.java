@@ -2,24 +2,16 @@ package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
 
-public class Instruction extends ArbreAbstrait {
-	protected Affectation affect;
+public abstract class Instruction extends ArbreAbstrait {
 
-	public Instruction(int no, Affectation af) {
+	public Instruction(int no) {
 		super(no);
-		affect=af;
 	}
 
 	@Override
-	public void verifier() {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void verifier();
 
 	@Override
-	public String toMIPS() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract String toMIPS();
 
 }

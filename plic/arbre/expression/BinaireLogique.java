@@ -14,7 +14,7 @@ public abstract class BinaireLogique extends Binaire {
         super(gauche, droite) ;
     }
     
-    protected String getType() {
+    public String getType() {
 		return "bool";
 	}
     

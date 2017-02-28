@@ -14,7 +14,7 @@ public class MoinsUnaire extends Unaire {
         super(expr);
     }
 
-    protected String getType() {
+    public String getType() {
 		return "int";
 	}
     

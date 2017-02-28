@@ -2,8 +2,9 @@ package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
 import plic.arbre.expression.Expression;
+import plic.exceptions.NonConcordanceException;
 
-public class Affectation extends ArbreAbstrait{
+public class Affectation extends Instruction{
 	protected Acces acces;
 	protected Expression exp;
 
@@ -15,7 +16,11 @@ public class Affectation extends ArbreAbstrait{
 
 	@Override
 	public void verifier() {
-		
+		exp.verifier();
+		acces.verifier();
+		if(!acces.getIdf().getType().equals(exp.getType())){
+			throw new NonConcordanceException("Les types ne concordent pas !",noLigne);
+		}
 	}
 
 	@Override

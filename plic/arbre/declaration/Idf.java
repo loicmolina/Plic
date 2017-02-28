@@ -1,11 +1,11 @@
 package plic.arbre.declaration;
 
-import java_cup.runtime.Symbol;
 import plic.arbre.ArbreAbstrait;
+import plic.tds.*;
 
 public class Idf extends ArbreAbstrait{
 	public String nom;
-	public Symbol symbole;
+	
 
 	public Idf(int no, String n) {
 		super(no);
@@ -16,11 +16,17 @@ public class Idf extends ArbreAbstrait{
 		return nom;
 	}
 	
+	public String getType(){
+		Symbole s = TDS.getInstance().identifier(new Entree(this));
+		return s.getType();
+	}
+	
 	@Override
 	public void verifier() {
 		
 		
 	}
+	
 
 	@Override
 	public String toMIPS() {

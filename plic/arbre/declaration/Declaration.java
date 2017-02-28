@@ -2,20 +2,15 @@ package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
 
-public class Declaration extends ArbreAbstrait{
+public abstract class Declaration extends ArbreAbstrait{
 
 	public Declaration(int no) {
 		super(no);
 	}
 
 	@Override
-	public void verifier() {
-		
-	}
+	public abstract void verifier();
 
 	@Override
-	public String toMIPS() {
-		return null;
-	}
-
+	public abstract String toMIPS();
 }

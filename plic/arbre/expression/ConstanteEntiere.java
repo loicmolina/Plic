@@ -23,7 +23,7 @@ public class ConstanteEntiere extends Constante {
 		return "li $v0,"+ this.cste + "\n";	
 	}
 
-	protected String getType() {
+	public String getType() {
 		return "int";
 	}
 }

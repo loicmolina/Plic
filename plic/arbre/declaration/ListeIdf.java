@@ -23,7 +23,9 @@ public class ListeIdf extends ArbreAbstrait{
 	
 	@Override
 	public void verifier() {
-		// TODO Auto-generated method stub
+		for(Idf i : listeIdf){
+			i.verifier();
+		}
 		
 	}
 

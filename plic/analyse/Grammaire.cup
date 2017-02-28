@@ -34,7 +34,6 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.ET), "et") ;
         lesTerminaux.put(new Integer(CodesLexicaux.OU), "ou") ;
         lesTerminaux.put(new Integer(CodesLexicaux.NON), "non") ;
-        lesTerminaux.put(new Integer(CodesLexicaux.PUBLIQUE), "publique") ;
         lesTerminaux.put(new Integer(CodesLexicaux.PRIVEE), "privee") ;
         lesTerminaux.put(new Integer(CodesLexicaux.ENTIER), "entier") ;
         lesTerminaux.put(new Integer(CodesLexicaux.CLASS), "classe") ;
@@ -87,7 +86,8 @@ terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,FIN,C
 
 non terminal ArbreAbstrait PROG;
 non terminal Expression EXPR, CSTE;
-non terminal String TYPE, STATUT, ECRIRE;
+non terminal String TYPE, STATUT;
+non terminal Ecrire ECRIRE;
 non terminal Declaration DECL_CHAMP, DECL_CONST, DECLARATION;
 non terminal Instruction INSTRUCTION;
 non terminal Affectation AFFECT;
@@ -151,7 +151,7 @@ DECL_CHAMP ::= 	STATUT:s TYPE:t LIDF:li POINTVIRGULE
 					i.verifier();
 					TDS.getInstance().ajouter(new Entree(i), new Symbole(t,s));					
 					} 
-					RESULT = new Declaration(sleft+1);
+					RESULT = new DeclarationChamp(sleft+1,li);
 				:}
 				;
 				
@@ -169,7 +169,8 @@ LIDF	::=		LIDF:l VIRGULE IDF:i
                 ;
 				
 STATUT 	::= 	PUBLIQUE:p 
-				{: RESULT = p; :}
+				{: System.out.println(p);
+				RESULT = p; :}
 		|
 				 PRIVEE:p
 				{: RESULT = p; :}
@@ -181,7 +182,7 @@ TYPE 	::= 	ENTIER:e
 				
 DECL_CONST ::= INSTRUCTION:i
 				{: 
-					RESULT = new Declaration(ileft+1); 
+					RESULT = new DeclarationConst(ileft+1,i); 
 				:}
 			;
 				
@@ -189,14 +190,12 @@ DECL_CONST ::= INSTRUCTION:i
 
 INSTRUCTION ::= AFFECT:a
 				{:
-					Instruction i = new Instruction(aleft+1,a);
-					
-					RESULT = i;
+					RESULT = a;
 				:}	
 				|
 				ECRIRE:e
-				{:
-					System.out.println(e);
+				{: 
+				RESULT = e;
 				:}						
 				;
 				
@@ -219,10 +218,14 @@ ACCES	::=		IDF:i
 				;
 				
 ECRIRE 	::=		WRITE:w EXPR:e POINTVIRGULE 
-				{: RESULT = w+e; :}
+				{: Ecrire ec = new Ecrire(eleft+1,e);
+					
+				RESULT = ec; :}
 				|
 				WRITE:w CONSTANTECHAINE:c POINTVIRGULE
-				{: RESULT = w+c; :}
+				{: Ecrire ec = new Ecrire(cleft+1,c);
+				
+				RESULT = ec; :}
 				;
     
 EXPR    ::=     EXPR:g  PLUS  EXPR:d

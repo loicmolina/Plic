@@ -19,7 +19,7 @@ public class NonLogique extends Unaire {
         return " non " ;
     }
     
-    protected String getType() {
+    public String getType() {
 		return "bool";
 	}
     

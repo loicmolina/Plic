@@ -16,7 +16,7 @@ public class Acces extends ArbreAbstrait{
 	
 	@Override
 	public void verifier() {
-		// TODO Auto-generated method stub
+		idf.verifier();
 		
 	}
 
