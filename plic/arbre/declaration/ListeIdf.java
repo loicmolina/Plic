@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import plic.arbre.ArbreAbstrait;
+import plic.arbre.expression.Idf;
 
 public class ListeIdf extends ArbreAbstrait{
 	ArrayList<Idf> listeIdf;

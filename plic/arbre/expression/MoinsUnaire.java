@@ -15,7 +15,7 @@ public class MoinsUnaire extends Unaire {
     }
 
     public String getType() {
-		return "int";
+		return "entier";
 	}
     
     @Override
@@ -25,7 +25,7 @@ public class MoinsUnaire extends Unaire {
     
     public void verifier() {
     	expression.verifier();
-		if (expression.getType()!="int"){
+		if (expression.getType()!="entier"){
 			throw new AnalyseSemantiqueException("Il faut que l'expression soit un entier", expression.getNoLigne());
 		}
 	}

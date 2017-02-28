@@ -25,8 +25,11 @@ public class Affectation extends Instruction{
 
 	@Override
 	public String toMIPS() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder sb = new StringBuilder("");
+		sb.append("#---Affectation de "+exp+" dans "+acces.getIdf().getNom()+"---\n");
+		sb.append(exp.toMIPS());
+		sb.append(acces.toMIPS());
+		return sb.toString();
 	}
 
 }

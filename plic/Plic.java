@@ -12,6 +12,7 @@ import plic.analyse.AnalyseurLexical;
 import plic.analyse.AnalyseurSyntaxique;
 import plic.arbre.ArbreAbstrait;
 import plic.exceptions.AnalyseException;
+import plic.tds.TDS;
 
 /**
  * 24 mars 2015 
@@ -30,16 +31,15 @@ public class Plic {
             //System.err.println("expression stockée dans l'arbre : " + arbre + "\n");
             //System.out.println(arbre.toMIPS());
             
-            StringBuilder strng=new StringBuilder(".text\nmain :\n");
-            strng.append(arbre.toMIPS());
-            strng.append("end :\n" +
-            		"move $v1, $v0 \t # copie de v0 dans v1 pour permettre les tests de plic0\n" +
-            		"li $v0, 10 \t # retour au système\n" +
-            		"syscall\n");
+            
+            
+            String strng;
+            strng = arbre.toMIPS();
+            
             
 
             System.out.println("Compilation OK");
-            write(fichier.substring(0,fichier.length()-4),strng.toString());
+            write(fichier.substring(0,fichier.length()-4),strng);
         } 
         catch (FileNotFoundException ex) {
             System.err.println("Fichier " + fichier + " inexistant") ;

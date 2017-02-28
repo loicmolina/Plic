@@ -34,8 +34,6 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.ET), "et") ;
         lesTerminaux.put(new Integer(CodesLexicaux.OU), "ou") ;
         lesTerminaux.put(new Integer(CodesLexicaux.NON), "non") ;
-        lesTerminaux.put(new Integer(CodesLexicaux.PRIVEE), "privee") ;
-        lesTerminaux.put(new Integer(CodesLexicaux.ENTIER), "entier") ;
         lesTerminaux.put(new Integer(CodesLexicaux.CLASS), "classe") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         lesTerminaux.put(new Integer(CodesLexicaux.WRITE), "ecrire") ;
@@ -147,9 +145,10 @@ DECLARATION ::= DECL_CHAMP:d
 				;
 
 DECL_CHAMP ::= 	STATUT:s TYPE:t LIDF:li POINTVIRGULE
-				{:	for(Idf i : li.getIterIdf()){
-					i.verifier();
-					TDS.getInstance().ajouter(new Entree(i), new Symbole(t,s));					
+				{:	int position;
+					for(Idf i : li.getIterIdf()){
+					position = TDS.getInstance().getTailleZoneVariable();
+					TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,t,s),sleft+1);				
 					} 
 					RESULT = new DeclarationChamp(sleft+1,li);
 				:}
@@ -169,7 +168,7 @@ LIDF	::=		LIDF:l VIRGULE IDF:i
                 ;
 				
 STATUT 	::= 	PUBLIQUE:p 
-				{: System.out.println(p);
+				{:
 				RESULT = p; :}
 		|
 				 PRIVEE:p
@@ -211,7 +210,6 @@ AFFECT 		::= ACCES:a EGAL EXPR:e POINTVIRGULE
 ACCES	::=		IDF:i
 				{:	
 					Idf idf = new Idf(ileft+1,i);
-					idf.verifier();
 					Acces a = new Acces(ileft+1,idf);
 					RESULT = a ;
 				:}			
@@ -266,6 +264,9 @@ EXPR    ::=     EXPR:g  PLUS  EXPR:d
         |
                 CSTE:c
                 {: RESULT = c ; :}
+        |
+        		IDF:i
+        		{: RESULT = new Idf(ileft+1,i); :}
         |
                 PAROUV  EXPR:e  PARFER
                 {: RESULT = e ; :}

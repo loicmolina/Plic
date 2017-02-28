@@ -1,6 +1,7 @@
 package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
+import plic.arbre.expression.Idf;
 
 public class Acces extends ArbreAbstrait{
 	protected Idf idf;
@@ -22,8 +23,11 @@ public class Acces extends ArbreAbstrait{
 
 	@Override
 	public String toMIPS() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		StringBuilder sb = new StringBuilder("");
+		sb.append("#ecriture de $v0 dans "+idf.getNom()+"\n");
+		sb.append("sw $v0, "+ idf.getDeplacement()+"($s7)\n\n");
+		return sb.toString();
 	}
 
 }

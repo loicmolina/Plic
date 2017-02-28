@@ -14,7 +14,7 @@ public class ListeDeclaration extends ArbreAbstrait{
 	}
 	
 	public void ajouter(Declaration d){
-		ald.add(d);
+		ald.add(d);	
 	}
 
 	@Override
@@ -26,7 +26,11 @@ public class ListeDeclaration extends ArbreAbstrait{
 
 	@Override
 	public String toMIPS() {
-		return null;
+		StringBuilder sb = new StringBuilder("");
+		for(Declaration d : ald){
+			sb.append(d.toMIPS());
+		}
+		return sb.toString();
 	}
 	
 

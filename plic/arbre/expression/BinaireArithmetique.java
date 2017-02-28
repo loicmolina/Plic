@@ -15,13 +15,13 @@ public abstract class BinaireArithmetique extends Binaire {
     }
     
     public String getType() {
-		return "int";
+		return "entier";
 	}
  
     public void verifier() {
     	gauche.verifier();
     	droite.verifier();
-		if (gauche.getType()!="int" || droite.getType()!="int"){
+		if (!gauche.getType().equals("entier") || !droite.getType().equals("entier")){
 			throw new AnalyseSemantiqueException("Il faut que toutes les expressions soient des entiers", gauche.getNoLigne());
 		}
 		

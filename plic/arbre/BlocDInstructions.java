@@ -1,5 +1,7 @@
 package plic.arbre;
 
+import plic.tds.TDS;
+
 /**
  * 3 déc. 2015
  *
@@ -24,7 +26,16 @@ public class BlocDInstructions extends ArbreAbstrait {
     
     public String toMIPS(){
     	
-    	return expr.toMIPS();
+    	StringBuilder strng=new StringBuilder(".text\nmain :\n");
+        strng.append("move $s7, $sp \n");
+        strng.append("addi $sp, $sp, " + TDS.getInstance().getTailleZoneVariable()+"\n");
+        strng.append(expr.toMIPS());
+        strng.append("\nend :\n" +
+        		"move $v1, $v0 \t # copie de v0 dans v1 pour permettre les tests de plic0\n" +
+        		"li $v0, 10 \t # retour au système\n" +
+        		"syscall\n");
+        
+    	return strng.toString();
     }
     
     @Override

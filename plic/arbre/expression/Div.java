@@ -26,7 +26,7 @@ public class Div extends BinaireArithmetique {
     	if (droite.toString().equals("0")){
     		throw new AnalyseSemantiqueException("Division par 0",droite.getNoLigne());
     	}
-		if (gauche.getType()!="int" || droite.getType()!="int"){
+		if (gauche.getType()!="entier" || droite.getType()!="entier"){
 			throw new AnalyseSemantiqueException("Il faut que toutes les expressions soient des entiers", gauche.getNoLigne());
 		}
 		

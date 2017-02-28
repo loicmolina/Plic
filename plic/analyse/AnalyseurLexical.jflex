@@ -35,6 +35,8 @@ csteB = "vrai" | "faux"
 guigui = [\"\"] | [^\"]
 csteC = [\"]{guigui}*[\"]
 public = "publique"
+private = "privee"
+int = "entier"
 
 commentaireSlashSlash = [/][/].*
 
@@ -68,13 +70,10 @@ espace = {finDeLigne}  | [ \t\f]
 "classe"			{ return symbol(CodesLexicaux.CLASS); }
 "fin"				{ return symbol(CodesLexicaux.FIN); }
 
-"privee"			{ return symbol(CodesLexicaux.PRIVEE); }
-
-"entier" 			{ return symbol(CodesLexicaux.ENTIER); }
 "ecrire" 			{ return symbol(CodesLexicaux.WRITE); }
 
-
-
+{private}				{ return symbol(CodesLexicaux.PRIVEE, yytext()); }
+{int}				{ return symbol(CodesLexicaux.ENTIER, yytext()); }
 {public}				{ return symbol(CodesLexicaux.PUBLIQUE, yytext()); }
 {csteE}      	        { return symbol(CodesLexicaux.CONSTANTEINT, yytext()); }
 {csteB}      	        { return symbol(CodesLexicaux.CONSTANTEBOOL, yytext()); }

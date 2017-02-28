@@ -20,8 +20,7 @@ public class Classe extends ArbreAbstrait {
 
 	@Override
 	public String toMIPS() {
-		// TODO Auto-generated method stub
-		return null;
+		return ld.toMIPS();
 	}
 
 }

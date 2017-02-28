@@ -11,8 +11,8 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public String toMIPS() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return instru.toMIPS();
 	}
 
 	@Override
