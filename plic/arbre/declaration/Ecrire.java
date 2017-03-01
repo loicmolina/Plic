@@ -54,7 +54,7 @@ public class Ecrire extends Instruction {
 				sb.append("beqz $v0, sinonEcrire"+this.hashCode()+"\n");
 				sb.append("alorsEcrire"+this.hashCode()+" :\n");
 				sb.append(".data\n");
-				sb.append("str"+this.hashCode()+" :\t .asciiz "+"\"Vrai\\n\"\n");
+				sb.append("str"+this.hashCode()+" :\t .asciiz "+"\"Vrai\"\n");
 				sb.append(".text\n");
 				sb.append("li $v0, 4\n");
 				sb.append("la $a0, str"+this.hashCode()+"\n");
@@ -64,7 +64,7 @@ public class Ecrire extends Instruction {
 				sb.append("#Si l'expression est vrai\n");
 				sb.append("sinonEcrire"+this.hashCode()+":\n");
 				sb.append(".data\n");
-				sb.append("str"+this.hashCode()+"_2 :\t .asciiz "+"\"Faux\\n\"\n");
+				sb.append("str"+this.hashCode()+"_2 :\t .asciiz "+"\"Faux\"\n");
 				sb.append(".text\n");
 				sb.append("li $v0, 4\n");
 				sb.append("la $a0, str"+this.hashCode()+"_2\n");
