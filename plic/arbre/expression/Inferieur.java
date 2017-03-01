@@ -23,7 +23,7 @@ public class Inferieur extends Comparaison {
     public void verifier() {
     	gauche.verifier();
     	droite.verifier();
-		if (gauche.getType()!="entier" || droite.getType()!="entier"){
+		if (!gauche.getType().equals("entier") || !droite.getType().equals("entier")){
 			throw new AnalyseSemantiqueException("Il faut que les deux expressions soient des entiers", gauche.getNoLigne());
 		}
 	}

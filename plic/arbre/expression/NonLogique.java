@@ -25,7 +25,7 @@ public class NonLogique extends Unaire {
     
     public void verifier() {
     	expression.verifier();
-		if (expression.getType()!="bool"){
+		if (!expression.getType().equals("bool")){
 			throw new AnalyseSemantiqueException("Il faut que l'expression soit un booleen", expression.getNoLigne());
 		}
 		

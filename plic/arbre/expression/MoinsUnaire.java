@@ -25,7 +25,7 @@ public class MoinsUnaire extends Unaire {
     
     public void verifier() {
     	expression.verifier();
-		if (expression.getType()!="entier"){
+		if (!expression.getType().equals("entier")){
 			throw new AnalyseSemantiqueException("Il faut que l'expression soit un entier", expression.getNoLigne());
 		}
 	}
