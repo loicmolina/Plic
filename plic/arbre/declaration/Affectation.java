@@ -1,6 +1,5 @@
 package plic.arbre.declaration;
 
-import plic.arbre.ArbreAbstrait;
 import plic.arbre.expression.Expression;
 import plic.exceptions.NonConcordanceException;
 

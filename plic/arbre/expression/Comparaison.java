@@ -23,7 +23,7 @@ public abstract class Comparaison extends Binaire {
     public void verifier() {
     	gauche.verifier();
     	droite.verifier();
-		if (gauche.getType() != droite.getType()){
+		if (!gauche.getType().equals(droite.getType())){
 			throw new AnalyseSemantiqueException("Il faut que toutes les expressions soient du même type", gauche.getNoLigne());
 		}
 		

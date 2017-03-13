@@ -72,6 +72,11 @@ espace = {finDeLigne}  | [ \t\f]
 
 "ecrire" 			{ return symbol(CodesLexicaux.WRITE); }
 
+"si"				{ return symbol(CodesLexicaux.SI); }
+"alors"				{ return symbol(CodesLexicaux.ALORS); }
+"sinon"				{ return symbol(CodesLexicaux.SINON); }
+"fsi"				{ return symbol(CodesLexicaux.FSI); }
+
 {private}				{ return symbol(CodesLexicaux.PRIVEE, yytext()); }
 {int}				{ return symbol(CodesLexicaux.ENTIER, yytext()); }
 {public}				{ return symbol(CodesLexicaux.PUBLIQUE, yytext()); }

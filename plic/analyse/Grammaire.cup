@@ -37,6 +37,10 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.CLASS), "classe") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         lesTerminaux.put(new Integer(CodesLexicaux.WRITE), "ecrire") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.SI), "si") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.ALORS), "alors") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.SINON), "sinon") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.FSI), "fsi") ;
         
         
 
@@ -78,7 +82,7 @@ parser code {:
 
 terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE;
 terminal Symbol    SUP, INF, EGALEGAL, DIFF, ET, OU, NON, EGAL ;
-terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,FIN,CLASS, WRITE, CONSTANTECHAINE;
+terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI;
    
 /* Non terminals used in the grammar section.  */
 
@@ -93,6 +97,8 @@ non terminal ListeDeclaration LDECL;
 non terminal Classe CLASSE;
 non terminal Acces ACCES;
 non terminal ListeIdf LIDF;
+non terminal ListeInstruction LINSTR;
+non terminal Condition CONDITION;
 
 
 precedence left INF, SUP ;
@@ -160,12 +166,23 @@ LIDF	::=		LIDF:l VIRGULE IDF:i
 				{: 	l.ajouter(new Idf(ileft+1,i));
 				RESULT = l; :}
 				
-			|
+		|
 				IDF:i
 				{: ListeIdf li = new ListeIdf(ileft+1);
                    li.ajouter(new Idf(ileft+1,i)) ;
                    RESULT = li ; :}         
                 ;
+                
+LINSTR 	::=		LINSTR:l INSTRUCTION:i
+				{:	l.ajouter(i);
+					RESULT = l; :}
+		|
+				INSTRUCTION:i
+				{: ListeInstruction li = new ListeInstruction(ileft+1);
+					li.ajouter(i);
+					RESULT = li; :}
+				;
+					
 				
 STATUT 	::= 	PUBLIQUE:p 
 				{:
@@ -179,23 +196,52 @@ TYPE 	::= 	ENTIER:e
 				{: RESULT = e; :}
 				;
 				
-DECL_CONST ::= INSTRUCTION:i
+DECL_CONST ::= 	INSTRUCTION:i 
 				{: 
 					RESULT = new DeclarationConst(ileft+1,i); 
 				:}
+			
 			;
 				
-                
+CONDITION ::=	SI EXPR:e ALORS LINSTR:li SINON LINSTR:sli FSI
+				{:
+					Condition c = new Condition(eleft+1,e,li,sli);
+					RESULT = c;
+				:}
+			|
+				SI EXPR:e ALORS SINON LINSTR:sli FSI
+				{:
+					Condition c = new Condition(eleft+1,e,null,sli);
+					RESULT = c;
+				:}
+			|
+				SI EXPR:e ALORS LINSTR:li FSI
+				{:
+					Condition c = new Condition(eleft+1,e,li,null);
+					RESULT = c;
+				:}
+			|
+				SI EXPR:e ALORS FSI
+				{:
+					Condition c = new Condition(eleft+1,e,null,null);
+					RESULT = c;
+				:}
+				;
 
 INSTRUCTION ::= AFFECT:a
 				{:
 					RESULT = a;
 				:}	
-				|
+			|
 				ECRIRE:e
 				{: 
 				RESULT = e;
-				:}						
+				:}	
+			|
+				CONDITION:c
+				{:
+				RESULT=c;
+				:}					
 				;
 				
 AFFECT 		::= ACCES:a EGAL EXPR:e POINTVIRGULE

@@ -21,7 +21,7 @@ public abstract class BinaireLogique extends Binaire {
     public void verifier() {
     	gauche.verifier();
     	droite.verifier();
-		if (gauche.getType()!="bool" || droite.getType()!="bool"){
+		if (!gauche.getType().equals("bool") || !droite.getType().equals("bool")){
 			throw new AnalyseSemantiqueException("Il faut que toutes les expressions soient des booleens", gauche.getNoLigne());
 		}
 		
