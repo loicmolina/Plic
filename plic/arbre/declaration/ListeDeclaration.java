@@ -33,5 +33,9 @@ public class ListeDeclaration extends ArbreAbstrait{
 		return sb.toString();
 	}
 	
-
+	public void addInTable(){
+		for(Declaration d : ald){
+			d.addInTable();
+		}
+	}
 }

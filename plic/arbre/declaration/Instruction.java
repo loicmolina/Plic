@@ -13,5 +13,7 @@ public abstract class Instruction extends ArbreAbstrait {
 
 	@Override
 	public abstract String toMIPS();
+	
+	public abstract void addInTable();
 
 }

@@ -8,9 +8,9 @@ import plic.exceptions.DoubleDeclarationException;
 
 public class TDS {
 	private static int dep=0;
-	private static HashMap<Entree,Symbole> table = new HashMap<Entree,Symbole>();
+	private static HashMap<Integer,DictionnaireLocal> collectionDico = new HashMap<Integer,DictionnaireLocal>();
 	private final static TDS instance = new TDS();
-	
+	private static int noBlocCourant = 0, compteur = 0;
 	private TDS(){
 		
 	}
@@ -20,19 +20,31 @@ public class TDS {
 	}
 	
 	public void ajouter(Entree e, Symbole s, int noligne){
-		if(identifier(e) != null){
-			throw new DoubleDeclarationException(e.getNom()+" a déjà été déclaré",noligne);
-		}
-		table.put(e, s);
-		dep = dep -4;
+		collectionDico.get(noBlocCourant).ajouter(e, s, noligne);
 	}
 	
-	public Symbole identifier(Entree e){
-		return table.get(e);
+	public DictionnaireLocal getDico(int e){
+		return collectionDico.get(e);
 	}
 	
-	public int getTailleZoneVariable(){
-		return dep;
+	public void entreeBloc(){
+		compteur = compteur+1;
+		collectionDico.put(compteur, new DictionnaireLocal(noBlocCourant,compteur));
+	}
+	
+	public DictionnaireLocal sortieBloc(){
+		return collectionDico.get(noBlocCourant);
+	}
+	
+	public void setBlocCourant(int n){
+		noBlocCourant = n;
+	}
+	public int getBlocCourant(){
+		return noBlocCourant;
+	}
+	
+	public int getCompteur(){
+		return compteur;
 	}
 	
 }

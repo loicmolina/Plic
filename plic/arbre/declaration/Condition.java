@@ -52,4 +52,10 @@ public class Condition extends Instruction{
 		return sb.toString();
 	}
 
+	@Override
+	public void addInTable() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -35,6 +35,7 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.OU), "ou") ;
         lesTerminaux.put(new Integer(CodesLexicaux.NON), "non") ;
         lesTerminaux.put(new Integer(CodesLexicaux.CLASS), "classe") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.DEBUT), "debut") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FIN), "fin") ;
         lesTerminaux.put(new Integer(CodesLexicaux.WRITE), "ecrire") ;
         lesTerminaux.put(new Integer(CodesLexicaux.SI), "si") ;
@@ -82,7 +83,7 @@ parser code {:
 
 terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE;
 terminal Symbol    SUP, INF, EGALEGAL, DIFF, ET, OU, NON, EGAL ;
-terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI;
+terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,DEBUT,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI;
    
 /* Non terminals used in the grammar section.  */
 
@@ -99,6 +100,7 @@ non terminal Acces ACCES;
 non terminal ListeIdf LIDF;
 non terminal ListeInstruction LINSTR;
 non terminal Condition CONDITION;
+non terminal DeclarationVar DECL_VAR;
 
 
 precedence left INF, SUP ;
@@ -121,11 +123,17 @@ PROG    ::= CLASSE:c
                 
           
 CLASSE ::=		CLASS IDF:i LDECL:l FIN
-				{: 	Classe c = new Classe(ileft+1,i,l);	
-					RESULT = c ;:}
+				{: 	TDS.getInstance().entreeBloc();
+					TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
+					Classe c = new Classe(ileft+1,i,l);	
+					RESULT = c ;
+					:}
 				|
 				CLASS IDF:i FIN
-				{: 	Classe c = new Classe(ileft+1,i,null);	
+				{: 	
+					TDS.getInstance().entreeBloc();
+					TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
+					Classe c = new Classe(ileft+1,i,null);	
 					RESULT = c ;:}
 				;		
 				
@@ -151,12 +159,8 @@ DECLARATION ::= DECL_CHAMP:d
 				;
 
 DECL_CHAMP ::= 	STATUT:s TYPE:t LIDF:li POINTVIRGULE
-				{:	int position;
-					for(Idf i : li.getIterIdf()){
-					position = TDS.getInstance().getTailleZoneVariable();
-					TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,t,s),sleft+1);				
-					} 
-					RESULT = new DeclarationChamp(sleft+1,li);
+				{:	
+					RESULT = new DeclarationChamp(t,s,sleft+1,li);
 				:}
 				;
 				
@@ -196,12 +200,24 @@ TYPE 	::= 	ENTIER:e
 				{: RESULT = e; :}
 				;
 				
-DECL_CONST ::= 	INSTRUCTION:i 
+DECL_CONST ::= 	STATUT:s IDF:i DEBUT LINSTR:l FIN
 				{: 
-					RESULT = new DeclarationConst(ileft+1,i); 
+					RESULT = new DeclarationConst(lleft+1,l); 
 				:}
-			
+				|
+				STATUT:s IDF:i DEBUT FIN
+				{: 
+					
+					RESULT = new DeclarationConst(ileft+1,null); 
+					
+				:}
 			;
+			
+DECL_VAR ::=	TYPE:t LIDF:li POINTVIRGULE
+				{:
+					RESULT = new DeclarationVar(t,lileft+1,li);
+				:}
+				;
 				
 CONDITION ::=	SI EXPR:e ALORS LINSTR:li SINON LINSTR:sli FSI
 				{:
@@ -241,7 +257,12 @@ INSTRUCTION ::= AFFECT:a
 				CONDITION:c
 				{:
 				RESULT=c;
-				:}					
+				:}	
+			|
+				DECL_VAR:d
+				{:
+				RESULT=d;
+				:}				
 				;
 				
 AFFECT 		::= ACCES:a EGAL EXPR:e POINTVIRGULE

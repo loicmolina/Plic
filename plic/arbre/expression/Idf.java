@@ -19,14 +19,16 @@ public class Idf extends Expression{
 	
 	public String getType(){
 		Entree e = new Entree(nom);
-		symbole = TDS.getInstance().identifier(e);
+		symbole = TDS.getInstance().sortieBloc().identifier(e);
 		
 		return symbole.getType();
 	}
 	
 	@Override
 	public void verifier() {
-		symbole = TDS.getInstance().identifier(new Entree(nom));
+		System.out.println("verif idf : Table"+TDS.getInstance().getBlocCourant()+" nom :"+nom);
+
+		symbole = TDS.getInstance().sortieBloc().identifier(new Entree(nom));
 		if (symbole==null){
 			throw new IdentificationException("La variable n'existe pas",this.getNoLigne());
 		}

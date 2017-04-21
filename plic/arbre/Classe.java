@@ -10,17 +10,23 @@ public class Classe extends ArbreAbstrait {
 		super(no);
 		ld = list;
 		idf=identif;
+		ld.addInTable();
 	}
 
 	@Override
 	public void verifier() {
-		ld.verifier();
+		if(ld != null){
+			ld.verifier();
+		}
 		
 	}
 
 	@Override
 	public String toMIPS() {
-		return ld.toMIPS();
+		if(ld != null)
+			return ld.toMIPS();
+		else
+			return "";
 	}
 
 }

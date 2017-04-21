@@ -68,6 +68,7 @@ espace = {finDeLigne}  | [ \t\f]
 ")"                	{ return symbol(CodesLexicaux.PARFER); }
 
 "classe"			{ return symbol(CodesLexicaux.CLASS); }
+"debut"			{ return symbol(CodesLexicaux.DEBUT); }
 "fin"				{ return symbol(CodesLexicaux.FIN); }
 
 "ecrire" 			{ return symbol(CodesLexicaux.WRITE); }

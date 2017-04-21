@@ -32,4 +32,10 @@ public class ListeInstruction extends ArbreAbstrait {
 		return sb.toString();
 	}
 	
+	public void addInTable(){
+		for(Instruction i : ali){
+			i.addInTable();
+		}
+	}
+	
 }

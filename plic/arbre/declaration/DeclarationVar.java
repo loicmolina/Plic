@@ -5,16 +5,20 @@ import plic.tds.Entree;
 import plic.tds.Symbole;
 import plic.tds.TDS;
 
-public class DeclarationChamp extends Declaration{
+public class DeclarationVar extends Instruction {
 	
 	protected ListeIdf lidf;
-	protected String type,statut;
+	protected String type;
 
-	public DeclarationChamp(String t, String s,int no, ListeIdf liste) {
+	public DeclarationVar(String t,int no, ListeIdf liste) {
 		super(no);
 		lidf = liste ;
 		type = t;
-		statut = s;
+	}
+
+	@Override
+	public void verifier() {
+		lidf.verifier();
 	}
 
 	@Override
@@ -23,17 +27,11 @@ public class DeclarationChamp extends Declaration{
 	}
 
 	@Override
-	public void verifier() {
-		lidf.verifier();
-		
-	}
-
-	@Override
 	public void addInTable() {
 		int position;
 		for(Idf i: lidf.getIterIdf()){
 			position = TDS.getInstance().sortieBloc().getTailleZoneVariable();
-			TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,type,statut),noLigne);				
+			TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,type,"publique"),noLigne);				
 		} 
 	}
 
