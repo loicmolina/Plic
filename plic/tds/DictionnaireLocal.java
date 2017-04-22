@@ -18,11 +18,11 @@ public class DictionnaireLocal {
 	}
 	
 	public void ajouter(Entree e, Symbole s, int noligne){
-		System.out.println("Ajout dans un dico local de "+e.getNom()+" :\nnoBlocEnglobant : "+noBlocEnglobant);
-		System.out.println("noBloc : "+noBloc);
+		//System.out.println("Ajout dans un dico local de "+e.getNom()+" :\nnoBlocEnglobant : "+noBlocEnglobant);
+		//System.out.println("noBloc : "+noBloc);
 		//System.out.println(TDS.getInstance().getBlocCourant());
 		if(identifier(e) != null){
-			throw new DoubleDeclarationException(e.getNom()+" a déjà été déclaré",noligne);
+			throw new DoubleDeclarationException(e.getNom()+" a deja ete declare",noligne);
 		}
 		table.put(e, s);
 		dep = dep -4;

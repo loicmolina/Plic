@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Symbole {
 	protected int position;
-	protected String[] symboles;
+	protected String[] symboles; //index 0 : statut, 1 : type
 	
 	public Symbole(int p,String... s){
 		position = p;

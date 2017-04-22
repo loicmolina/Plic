@@ -22,21 +22,22 @@ import plic.tds.TDS;
 
 public class Plic {
     
-    public Plic(String fichier) {
+    public Plic(String fichier, String racine) {
         try {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(fichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
+            arbre.setRacine(racine);
             arbre.verifier();
             
-            //System.err.println("expression stockée dans l'arbre : " + arbre + "\n");
+            //System.err.println("expression stockee dans l'arbre : " + arbre + "\n");
             //System.out.println(arbre.toMIPS());
+            
             
             
             
             String strng;
             strng = arbre.toMIPS();
-            
-            
+                        
 
             System.out.println("Compilation OK");
             write(fichier.substring(0,fichier.length()-4),strng);
@@ -64,12 +65,12 @@ public class Plic {
     }
 
     public static void main(String[] args) {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.err.println("Nombre incorrect d'arguments") ;
-            System.err.println("\tjava -jar plic.jar <fichierSource.plic>") ;
+            System.err.println("\tjava -jar plic.jar <fichierSource.plic> <nom classe racine>") ;
             System.exit(1) ;
         }
-        new Plic(args[0]) ;
+        new Plic(args[0], args[1]) ;
     }
     
 }

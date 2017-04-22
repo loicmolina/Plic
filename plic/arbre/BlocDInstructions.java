@@ -14,6 +14,7 @@ public class BlocDInstructions extends ArbreAbstrait {
     
     public BlocDInstructions(int n) {
         super(n) ;
+
     }
     
     public void ajouter(ArbreAbstrait a) {
@@ -21,6 +22,7 @@ public class BlocDInstructions extends ArbreAbstrait {
     }
     
     public void verifier(){
+        expr.setRacine(classeRacine);
     	expr.verifier();
     }
     

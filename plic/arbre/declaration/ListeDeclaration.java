@@ -3,10 +3,11 @@ package plic.arbre.declaration;
 import java.util.ArrayList;
 
 import plic.arbre.ArbreAbstrait;
+import plic.exceptions.NomClasseConstructeurException;
 
-public class ListeDeclaration extends ArbreAbstrait{
-	
+public class ListeDeclaration extends ArbreAbstrait{	
 	public ArrayList<Declaration> ald;
+	protected String idfClasse;
 
 	public ListeDeclaration(int no) {
 		super(no);
@@ -21,7 +22,14 @@ public class ListeDeclaration extends ArbreAbstrait{
 	public void verifier() {
 		for(Declaration d : ald){
 			d.verifier();
+			if (d instanceof DeclarationConst && !idfClasse.equals(((DeclarationConst) d).getIdf())){
+				throw new NomClasseConstructeurException("Le nom du constructeur ne correspond pas à celui de la classe",noLigne);
+			}
 		}
+	}
+	
+	public void setIdfClasse(String id){
+		idfClasse = id;
 	}
 
 	@Override

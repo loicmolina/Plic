@@ -60,6 +60,9 @@ espace = {finDeLigne}  | [ \t\f]
 "<"                	{ return symbol(CodesLexicaux.INF); }
 ">"                	{ return symbol(CodesLexicaux.SUP); }
 
+
+"nouveau" 			{ return symbol(CodesLexicaux.NOUVEAU); }
+
 "et"                	{ return symbol(CodesLexicaux.ET); }
 "ou"                	{ return symbol(CodesLexicaux.OU); }
 "non"                	{ return symbol(CodesLexicaux.NON); }
@@ -77,6 +80,7 @@ espace = {finDeLigne}  | [ \t\f]
 "alors"				{ return symbol(CodesLexicaux.ALORS); }
 "sinon"				{ return symbol(CodesLexicaux.SINON); }
 "fsi"				{ return symbol(CodesLexicaux.FSI); }
+
 
 {private}				{ return symbol(CodesLexicaux.PRIVEE, yytext()); }
 {int}				{ return symbol(CodesLexicaux.ENTIER, yytext()); }

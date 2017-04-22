@@ -1,15 +1,23 @@
 package plic.arbre.declaration;
 
+import plic.arbre.expression.Idf;
 import plic.tds.TDS;
 
 public class DeclarationConst extends Declaration{
 
-	public ListeInstruction instru;
+	protected ListeInstruction instru;
+	protected String idf;
+	
 
-	public DeclarationConst(int no, ListeInstruction i) {
-		super(no);
+	public DeclarationConst(int no, ListeInstruction i, String id ,int nbloc ) {
+		super(no, nbloc);
 		instru = i;
+		idf = id;
 		
+	}
+	
+	public String getIdf(){
+		return idf;
 	}
 
 	@Override
@@ -22,6 +30,7 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public void verifier() {
+		TDS.getInstance().setBlocCourant(noBloc);
 		if(instru != null)
 			instru.verifier();
 		
@@ -29,6 +38,7 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public void addInTable() {
+		noBloc  = TDS.getInstance().getBlocCourant();
 		TDS.getInstance().entreeBloc();
 		TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
 		if(instru != null)

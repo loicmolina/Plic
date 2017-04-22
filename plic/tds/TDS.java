@@ -39,6 +39,7 @@ public class TDS {
 	public void setBlocCourant(int n){
 		noBlocCourant = n;
 	}
+	
 	public int getBlocCourant(){
 		return noBlocCourant;
 	}

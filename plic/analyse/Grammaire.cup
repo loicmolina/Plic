@@ -42,6 +42,7 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.ALORS), "alors") ;
         lesTerminaux.put(new Integer(CodesLexicaux.SINON), "sinon") ;
         lesTerminaux.put(new Integer(CodesLexicaux.FSI), "fsi") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.NOUVEAU), "nouveau");
         
         
 
@@ -83,7 +84,7 @@ parser code {:
 
 terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE;
 terminal Symbol    SUP, INF, EGALEGAL, DIFF, ET, OU, NON, EGAL ;
-terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,DEBUT,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI;
+terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,DEBUT,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI, NOUVEAU;
    
 /* Non terminals used in the grammar section.  */
 
@@ -99,8 +100,10 @@ non terminal Classe CLASSE;
 non terminal Acces ACCES;
 non terminal ListeIdf LIDF;
 non terminal ListeInstruction LINSTR;
+non terminal ListeClasse LCLASSE;
 non terminal Condition CONDITION;
 non terminal DeclarationVar DECL_VAR;
+non terminal Instanciation INSTANCIATION;
 
 
 precedence left INF, SUP ;
@@ -115,12 +118,26 @@ precedence left NON ;
  
 start with PROG ;
 
-PROG    ::= CLASSE:c
-         		{: BlocDInstructions arbre = new BlocDInstructions(cleft+1) ;
-                   arbre.ajouter(c) ;
+PROG    ::= 	LCLASSE:lc
+         		{: BlocDInstructions arbre = new BlocDInstructions(lcleft+1) ;
+                   arbre.ajouter(lc) ;
                    RESULT = arbre ; :}         
                 ;
                 
+                
+LCLASSE ::= 	LCLASSE:lc CLASSE:c
+				{:
+					lc.ajouter(c);
+					RESULT = lc;
+				:}
+				|
+				CLASSE:c
+				{:
+					ListeClasse lc = new ListeClasse(cleft+1);
+					lc.ajouter(c);
+					RESULT = lc;
+				:}
+				;                
           
 CLASSE ::=		CLASS IDF:i LDECL:l FIN
 				{: 	TDS.getInstance().entreeBloc();
@@ -136,6 +153,12 @@ CLASSE ::=		CLASS IDF:i LDECL:l FIN
 					Classe c = new Classe(ileft+1,i,null);	
 					RESULT = c ;:}
 				;		
+				
+INSTANCIATION ::= ACCES:a EGAL NOUVEAU IDF:i POINTVIRGULE	
+					{:
+						RESULT = new Instanciation(aleft+1,a,i,0);
+					:}
+					;			
 				
 				
 LDECL ::=		LDECL:l DECLARATION:d
@@ -160,7 +183,7 @@ DECLARATION ::= DECL_CHAMP:d
 
 DECL_CHAMP ::= 	STATUT:s TYPE:t LIDF:li POINTVIRGULE
 				{:	
-					RESULT = new DeclarationChamp(t,s,sleft+1,li);
+					RESULT = new DeclarationChamp(t,s,sleft+1,li, 0);
 				:}
 				;
 				
@@ -202,44 +225,44 @@ TYPE 	::= 	ENTIER:e
 				
 DECL_CONST ::= 	STATUT:s IDF:i DEBUT LINSTR:l FIN
 				{: 
-					RESULT = new DeclarationConst(lleft+1,l); 
+					RESULT = new DeclarationConst(lleft+1,l,i, 0); 
 				:}
 				|
 				STATUT:s IDF:i DEBUT FIN
 				{: 
 					
-					RESULT = new DeclarationConst(ileft+1,null); 
+					RESULT = new DeclarationConst(ileft+1,null,i, 0); 
 					
 				:}
 			;
 			
 DECL_VAR ::=	TYPE:t LIDF:li POINTVIRGULE
 				{:
-					RESULT = new DeclarationVar(t,lileft+1,li);
+					RESULT = new DeclarationVar(t,lileft+1,li, 0);
 				:}
 				;
 				
 CONDITION ::=	SI EXPR:e ALORS LINSTR:li SINON LINSTR:sli FSI
 				{:
-					Condition c = new Condition(eleft+1,e,li,sli);
+					Condition c = new Condition(eleft+1,e,li,sli, 0);
 					RESULT = c;
 				:}
 			|
 				SI EXPR:e ALORS SINON LINSTR:sli FSI
 				{:
-					Condition c = new Condition(eleft+1,e,null,sli);
+					Condition c = new Condition(eleft+1,e,null,sli, 0);
 					RESULT = c;
 				:}
 			|
 				SI EXPR:e ALORS LINSTR:li FSI
 				{:
-					Condition c = new Condition(eleft+1,e,li,null);
+					Condition c = new Condition(eleft+1,e,li,null, 0);
 					RESULT = c;
 				:}
 			|
 				SI EXPR:e ALORS FSI
 				{:
-					Condition c = new Condition(eleft+1,e,null,null);
+					Condition c = new Condition(eleft+1,e,null,null, 0);
 					RESULT = c;
 				:}
 				;
@@ -262,12 +285,17 @@ INSTRUCTION ::= AFFECT:a
 				DECL_VAR:d
 				{:
 				RESULT=d;
-				:}				
+				:}	
+			| 
+				INSTANCIATION:i
+				{:
+				RESULT = i;
+				:}			
 				;
 				
 AFFECT 		::= ACCES:a EGAL EXPR:e POINTVIRGULE
 				{:
-					Affectation af = new Affectation(aleft+1,a,e);
+					Affectation af = new Affectation(aleft+1,a,e, 0);
 					RESULT = af;
 				:}
 				;
@@ -283,12 +311,12 @@ ACCES	::=		IDF:i
 				;
 				
 ECRIRE 	::=		WRITE:w EXPR:e POINTVIRGULE 
-				{: Ecrire ec = new Ecrire(eleft+1,e);
+				{: Ecrire ec = new Ecrire(eleft+1,e, 0);
 					
 				RESULT = ec; :}
 				|
 				WRITE:w CONSTANTECHAINE:c POINTVIRGULE
-				{: Ecrire ec = new Ecrire(cleft+1,c);
+				{: Ecrire ec = new Ecrire(cleft+1,c, 0);
 				
 				RESULT = ec; :}
 				;

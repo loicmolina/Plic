@@ -2,26 +2,28 @@ package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
 import plic.arbre.expression.Expression;
+import plic.tds.TDS;
 
 public class Ecrire extends Instruction {
 	protected Expression expression;
 	protected String csteChaine;
 	
 
-	public Ecrire(int no, Expression e) {
-		super(no);
+	public Ecrire(int no, Expression e ,int nbloc ) {
+		super(no, nbloc);
 		expression=e;
 		csteChaine=null;
 	}
 	
-	public Ecrire(int no, String cste) {
-		super(no);
+	public Ecrire(int no, String cste ,int nbloc ) {
+		super(no, nbloc);
 		csteChaine=cste;
 		expression=null;
 	}
 
 	@Override
 	public void verifier() {
+		TDS.getInstance().setBlocCourant(noBloc);
 		if(expression != null){
 			expression.verifier();
 		}

@@ -10,14 +10,15 @@ public class DeclarationVar extends Instruction {
 	protected ListeIdf lidf;
 	protected String type;
 
-	public DeclarationVar(String t,int no, ListeIdf liste) {
-		super(no);
+	public DeclarationVar(String t,int no, ListeIdf liste ,int nbloc ) {
+		super(no, nbloc);
 		lidf = liste ;
 		type = t;
 	}
 
 	@Override
 	public void verifier() {
+		TDS.getInstance().setBlocCourant(noBloc);
 		lidf.verifier();
 	}
 

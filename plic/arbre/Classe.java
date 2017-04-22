@@ -1,16 +1,25 @@
 package plic.arbre;
 
 import plic.arbre.declaration.ListeDeclaration;
+import plic.tds.TDS;
 
 public class Classe extends ArbreAbstrait {
 	public ListeDeclaration ld ;
 	public String idf;
+	public boolean isRacine;
 	
 	public Classe(int no, String identif, ListeDeclaration list) {
 		super(no);
+		isRacine = false;
 		ld = list;
 		idf=identif;
-		ld.addInTable();
+		if (ld != null){
+			ld.addInTable();
+		}
+		
+		ld.setIdfClasse(idf);
+		TDS.getInstance().setBlocCourant(0);
+		
 	}
 
 	@Override
@@ -19,6 +28,14 @@ public class Classe extends ArbreAbstrait {
 			ld.verifier();
 		}
 		
+	}
+	
+	public String getIdf() {
+		return idf;
+	}
+
+	public void setIdf(String idf) {
+		this.idf = idf;
 	}
 
 	@Override

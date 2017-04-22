@@ -3,6 +3,7 @@ package plic.arbre.declaration;
 import java.util.ArrayList;
 
 import plic.arbre.ArbreAbstrait;
+import plic.tds.TDS;
 
 public class ListeInstruction extends ArbreAbstrait {
 	protected ArrayList<Instruction> ali;
@@ -32,8 +33,9 @@ public class ListeInstruction extends ArbreAbstrait {
 		return sb.toString();
 	}
 	
-	public void addInTable(){
+	public void addInTable(){		
 		for(Instruction i : ali){
+			i.setNoBloc(TDS.getInstance().getBlocCourant());
 			i.addInTable();
 		}
 	}

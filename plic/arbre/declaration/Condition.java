@@ -3,14 +3,15 @@ package plic.arbre.declaration;
 import plic.arbre.ArbreAbstrait;
 import plic.arbre.expression.Expression;
 import plic.exceptions.ConditionException;
+import plic.tds.TDS;
 
 public class Condition extends Instruction{
 	protected Expression expr;
 	protected ListeInstruction sili;
 	protected ListeInstruction sinonli;
 
-	public Condition(int no, Expression e, ListeInstruction sl, ListeInstruction snl) {
-		super(no);
+	public Condition(int no, Expression e, ListeInstruction sl, ListeInstruction snl,int nbloc ) {
+		super(no, nbloc);
 		expr = e;
 		sili = sl;
 		sinonli = snl;
@@ -18,7 +19,7 @@ public class Condition extends Instruction{
 
 	@Override
 	public void verifier() {
-		
+		TDS.getInstance().setBlocCourant(noBloc);
 		if (!expr.getType().equals("bool")){
 			throw new ConditionException("L'expression n'est pas booléenne",this.getNoLigne());
 		}

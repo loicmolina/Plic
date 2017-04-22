@@ -10,6 +10,7 @@ public abstract class ArbreAbstrait {
     
     // numéro de ligne du début de l'instruction
     protected int noLigne ;
+    protected String classeRacine;
     
     protected ArbreAbstrait(int no) {
         noLigne = no ;
@@ -22,5 +23,10 @@ public abstract class ArbreAbstrait {
     public abstract void verifier();
     
     public abstract String toMIPS();
+
+	public void setRacine(String racine) {
+		classeRacine = racine;
+		
+	}
 
 }
