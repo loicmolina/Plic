@@ -31,11 +31,16 @@ public class DeclarationChamp extends Declaration{
 	}
 
 	@Override
-	public void addInTable() {
+	public void setNoBlocInstruction() {		
+		noBloc = TDS.getInstance().getBlocCourant();		
+	}
+
+	@Override
+	public void ajoutVar() {
 		int position;
-		noBloc = TDS.getInstance().getBlocCourant();
 		for(Idf i: lidf.getIterIdf()){
-			position = TDS.getInstance().sortieBloc().getTailleZoneVariable();
+			position = TDS.getInstance().getDico(noBloc).getTailleZoneVariable();
+			System.out.println(noBloc);
 			TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,type,statut),noLigne);				
 		} 
 	}

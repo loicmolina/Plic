@@ -26,14 +26,15 @@ public class Plic {
         try {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(fichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
+            
+            arbre.ajoutVar();
+            
             arbre.setRacine(racine);
             arbre.verifier();
             
+            
             //System.err.println("expression stockee dans l'arbre : " + arbre + "\n");
             //System.out.println(arbre.toMIPS());
-            
-            
-            
             
             String strng;
             strng = arbre.toMIPS();
@@ -60,7 +61,7 @@ public class Plic {
 	    	fw.write(contenu);
 	    	fw.close();
     	}catch(Exception e){
-    		System.err.println("Fichier non créé");
+    		System.err.println("Fichier non cree");
     	}
     }
 

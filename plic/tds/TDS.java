@@ -1,9 +1,10 @@
 package plic.tds;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
-import plic.arbre.expression.Idf;
-import plic.exceptions.DoubleDeclarationException;
+import plic.arbre.Classe;
+import plic.arbre.ListeClasse;
 
 
 public class TDS {
@@ -11,6 +12,7 @@ public class TDS {
 	private static HashMap<Integer,DictionnaireLocal> collectionDico = new HashMap<Integer,DictionnaireLocal>();
 	private final static TDS instance = new TDS();
 	private static int noBlocCourant = 0, compteur = 0;
+	private static ListeClasse listeClasse = null;
 	private TDS(){
 		
 	}
@@ -21,6 +23,14 @@ public class TDS {
 	
 	public void ajouter(Entree e, Symbole s, int noligne){
 		collectionDico.get(noBlocCourant).ajouter(e, s, noligne);
+	}
+	
+	public void setListeClasse(ListeClasse lc){
+		listeClasse = lc;
+	}
+	
+	public Iterable<Classe> getListeClasse(){
+		return listeClasse.getListeClasse();
 	}
 	
 	public DictionnaireLocal getDico(int e){

@@ -54,9 +54,15 @@ public class Condition extends Instruction{
 	}
 
 	@Override
-	public void addInTable() {
+	public void ajoutVar() {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/*
+	public void addInTable() {
+		// TODO Auto-generated method stub
+		
+	}*/
 
 }

@@ -1,6 +1,5 @@
 package plic.arbre.declaration;
 
-import plic.arbre.expression.Idf;
 import plic.tds.TDS;
 
 public class DeclarationConst extends Declaration{
@@ -22,10 +21,13 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public String toMIPS() {
-		if(instru != null)
-			return instru.toMIPS();
-		else
-			return "";
+		StringBuilder sb = new StringBuilder();
+		if(instru != null){
+			sb.append("move $s7, $sp \n");
+			sb.append("addi $sp, $sp, " + TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"\n");
+			sb.append(instru.toMIPS());
+		}
+		return sb.toString();
 	}
 
 	@Override
@@ -37,15 +39,22 @@ public class DeclarationConst extends Declaration{
 	}
 
 	@Override
-	public void addInTable() {
+	public void setNoBlocInstruction() {
 		noBloc  = TDS.getInstance().getBlocCourant();
 		TDS.getInstance().entreeBloc();
 		TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
 		if(instru != null)
-			instru.addInTable();
+			instru.setNoBloc();
 
 		TDS.getInstance().setBlocCourant(TDS.getInstance().sortieBloc().getnoBlocEnglobant());
 		
+	}
+
+	@Override
+	public void ajoutVar() {
+		if (instru != null){
+			instru.ajoutVar();
+		}
 	}
 
 }

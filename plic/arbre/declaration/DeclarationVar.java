@@ -28,12 +28,13 @@ public class DeclarationVar extends Instruction {
 	}
 
 	@Override
-	public void addInTable() {
+	public void ajoutVar() {
 		int position;
 		for(Idf i: lidf.getIterIdf()){
-			position = TDS.getInstance().sortieBloc().getTailleZoneVariable();
+			position = TDS.getInstance().getDico(noBloc).getTailleZoneVariable();
 			TDS.getInstance().ajouter(new Entree(i.getNom()), new Symbole(position,type,"publique"),noLigne);				
 		} 
+		
 	}
 
 }

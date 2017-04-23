@@ -1,7 +1,8 @@
 package plic.arbre.expression;
 
-import plic.arbre.ArbreAbstrait;
+import plic.arbre.Classe;
 import plic.exceptions.IdentificationException;
+import plic.exceptions.TypeInexistantException;
 import plic.tds.*;
 
 public class Idf extends Expression{
@@ -36,7 +37,7 @@ public class Idf extends Expression{
 	
 	@Override
 	public void verifier(){
-
+				
 		int currentBloc = TDS.getInstance().getBlocCourant();
 		int tmpBloc= TDS.getInstance().getBlocCourant();
 		
@@ -51,6 +52,26 @@ public class Idf extends Expression{
 		}
 
 		TDS.getInstance().setBlocCourant(tmpBloc);
+		
+		
+		//Gestion type idf
+		boolean typeCorrect = false;
+		if (symbole.getType().equals("entier")){
+			typeCorrect = true;
+		}
+		if (symbole.getType().equals("bool")){
+			typeCorrect = true;
+		}		
+		for (Classe c : TDS.getInstance().getListeClasse()){
+			if (symbole.getType().equals(c.getIdf())){
+				typeCorrect = true;
+			}
+		}
+		
+		if (!typeCorrect){
+			throw new TypeInexistantException("Le type de la variable est inexistant",noLigne);
+		}
+		
 	}
 	
 	public int getDeplacement(){
@@ -69,6 +90,13 @@ public class Idf extends Expression{
 	@Override
 	public String toString() {
 		return nom;
+	}
+	
+
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

@@ -43,7 +43,14 @@ public class ListeDeclaration extends ArbreAbstrait{
 	
 	public void addInTable(){
 		for(Declaration d : ald){
-			d.addInTable();
+			d.setNoBlocInstruction();
+		}
+	}
+
+	@Override
+	public void ajoutVar() {
+		for (Declaration d : ald){
+			d.ajoutVar();
 		}
 	}
 }

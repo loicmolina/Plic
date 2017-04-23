@@ -3,6 +3,7 @@ package plic.arbre;
 import java.util.ArrayList;
 
 import plic.arbre.declaration.Declaration;
+import plic.exceptions.NomClasseConstructeurException;
 
 public class ListeClasse extends ArbreAbstrait {
 	protected ArrayList<Classe> listeClasse;
@@ -15,7 +16,12 @@ public class ListeClasse extends ArbreAbstrait {
 	public void ajouter(Classe c){
 		listeClasse.add(c);
 	}
+	
+	public ArrayList<Classe> getListeClasse(){
+		return listeClasse;
+	}
 
+	
 	@Override
 	public void verifier() {
 		boolean classeRacineExistante = false;
@@ -26,16 +32,28 @@ public class ListeClasse extends ArbreAbstrait {
 			c.verifier();
 		}	
 		
-		//if (!classeRacineExistante)
+		if (!classeRacineExistante){
+			throw new NomClasseConstructeurException("La classe indiquée en argument n'existe pas",noLigne);
+		}
 	}
 
 	@Override
 	public String toMIPS() {
-		StringBuilder sb = new StringBuilder();
+		String s = "";
 		for (Classe c : listeClasse){
-			sb.append(c.toMIPS());
-		}	
-		return sb.toString();
+			if (c.getIdf().equals(this.classeRacine)){
+				s = c.toMIPS();
+			}
+		}
+		return s;
+	}
+
+	@Override
+	public void ajoutVar() {
+		for (Classe c : listeClasse){
+			c.ajoutVar();
+		}
+		
 	}
 	
 }

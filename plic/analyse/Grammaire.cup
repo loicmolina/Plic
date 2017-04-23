@@ -121,6 +121,7 @@ start with PROG ;
 PROG    ::= 	LCLASSE:lc
          		{: BlocDInstructions arbre = new BlocDInstructions(lcleft+1) ;
                    arbre.ajouter(lc) ;
+                   TDS.getInstance().setListeClasse(lc);
                    RESULT = arbre ; :}         
                 ;
                 
@@ -151,12 +152,14 @@ CLASSE ::=		CLASS IDF:i LDECL:l FIN
 					TDS.getInstance().entreeBloc();
 					TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
 					Classe c = new Classe(ileft+1,i,null);	
-					RESULT = c ;:}
+					RESULT = c ;
+					:}
 				;		
 				
 INSTANCIATION ::= ACCES:a EGAL NOUVEAU IDF:i POINTVIRGULE	
 					{:
-						RESULT = new Instanciation(aleft+1,a,i,0);
+						Idf idf = new Idf(ileft+1,i);
+						RESULT = new Instanciation(aleft+1,a,idf,0);
 					:}
 					;			
 				
@@ -214,13 +217,16 @@ LINSTR 	::=		LINSTR:l INSTRUCTION:i
 STATUT 	::= 	PUBLIQUE:p 
 				{:
 				RESULT = p; :}
-		|
+				|
 				 PRIVEE:p
 				{: RESULT = p; :}
 				;
 
 TYPE 	::= 	ENTIER:e 
 				{: RESULT = e; :}
+				|
+				IDF:i
+				{: RESULT = i; :}
 				;
 				
 DECL_CONST ::= 	STATUT:s IDF:i DEBUT LINSTR:l FIN
@@ -230,7 +236,6 @@ DECL_CONST ::= 	STATUT:s IDF:i DEBUT LINSTR:l FIN
 				|
 				STATUT:s IDF:i DEBUT FIN
 				{: 
-					
 					RESULT = new DeclarationConst(ileft+1,null,i, 0); 
 					
 				:}

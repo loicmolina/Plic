@@ -2,6 +2,7 @@ package plic.arbre.declaration;
 
 import plic.arbre.ArbreAbstrait;
 import plic.arbre.expression.Idf;
+import plic.tds.TDS;
 
 public class Acces extends ArbreAbstrait{
 	protected Idf idf;
@@ -28,6 +29,11 @@ public class Acces extends ArbreAbstrait{
 		sb.append("#ecriture de $v0 dans "+idf.getNom()+"\n");
 		sb.append("sw $v0, "+ idf.getDeplacement()+"($s7)\n\n");
 		return sb.toString();
+	}
+
+	@Override
+	public void ajoutVar() {
+		
 	}
 
 }

@@ -2,6 +2,7 @@ package plic.tds;
 
 import java.util.HashMap;
 
+import plic.arbre.Classe;
 import plic.exceptions.DoubleDeclarationException;
 
 public class DictionnaireLocal {
@@ -25,8 +26,19 @@ public class DictionnaireLocal {
 			throw new DoubleDeclarationException(e.getNom()+" a deja ete declare",noligne);
 		}
 		table.put(e, s);
-		dep = dep -4;
+		if (s.getType().equals("entier")){
+			dep = dep -4;
+		}else{
+			int nb = 1;
+			for (Classe c : TDS.getInstance().getListeClasse()){
+				if (s.getType().equals(c.getIdf())){
+					nb = c.getNoBloc();
+				}
+			}
+			dep = dep - TDS.getInstance().getDico(nb).getTailleZoneVariable();
+		}		
 	}
+	
 	public Symbole identifier(Entree e){
 		return table.get(e);
 	}

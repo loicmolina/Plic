@@ -16,7 +16,7 @@ public abstract class Declaration extends ArbreAbstrait{
 	@Override
 	public abstract String toMIPS();
 	
-	public abstract void addInTable();
+	public abstract void setNoBlocInstruction();
 
 	public int getNoBloc() {
 		return noBloc;

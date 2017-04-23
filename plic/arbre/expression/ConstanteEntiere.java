@@ -26,4 +26,11 @@ public class ConstanteEntiere extends Constante {
 	public String getType() {
 		return "entier";
 	}
+	
+
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
 }

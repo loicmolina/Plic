@@ -19,6 +19,8 @@ public abstract class ArbreAbstrait {
     public int getNoLigne() {
             return noLigne ;
     }
+    
+    public abstract void ajoutVar();
 
     public abstract void verifier();
     
@@ -26,7 +28,6 @@ public abstract class ArbreAbstrait {
 
 	public void setRacine(String racine) {
 		classeRacine = racine;
-		
 	}
 
 }

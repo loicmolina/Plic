@@ -32,5 +32,10 @@ public class Plus extends BinaireArithmetique {
     	return res.toString();
     }
 
-    
+
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
 }

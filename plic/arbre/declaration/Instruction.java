@@ -24,6 +24,6 @@ public abstract class Instruction extends ArbreAbstrait {
 		this.noBloc = noBloc;
 	}
 
-	public abstract void addInTable();
+	//public abstract void addInTable();
 
 }

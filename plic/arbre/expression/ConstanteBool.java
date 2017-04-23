@@ -33,4 +33,10 @@ public class ConstanteBool extends Constante {
 		return s;
 	}
 
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

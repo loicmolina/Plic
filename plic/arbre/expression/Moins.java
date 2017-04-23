@@ -32,4 +32,11 @@ public class Moins extends BinaireArithmetique {
     	res.append("sub $v0,$t8,$v0\n\n");
     	return res.toString();
     }
+    
+
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
 }

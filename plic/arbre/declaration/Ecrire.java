@@ -44,7 +44,7 @@ public class Ecrire extends Instruction {
 		if(csteChaine == null){
 			sb.append(expression.toMIPS());
 			if(expression.getType().equals("entier")){
-				sb.append("#----Ecriture d'une expression Arithmétique----\n");
+				sb.append("#----Ecriture d'une expression Arithmetique----\n");
 				sb.append("move $t8, $v0\n");
 				sb.append("li $v0, 1\n");
 				sb.append("move $a0, $t8\n");
@@ -81,9 +81,15 @@ public class Ecrire extends Instruction {
 	}
 
 	@Override
-	public void addInTable() {
+	public void ajoutVar() {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/*
+	public void addInTable() {
+		// TODO Auto-generated method stub
+		
+	}*/
 
 }

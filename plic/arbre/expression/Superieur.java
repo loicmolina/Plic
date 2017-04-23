@@ -40,4 +40,11 @@ public class Superieur extends Comparaison {
     	res.append("sgt $v0,$t8,$v0\n\n");
     	return res.toString();
     }
+    
+
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
 }

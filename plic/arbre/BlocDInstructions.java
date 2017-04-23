@@ -23,14 +23,14 @@ public class BlocDInstructions extends ArbreAbstrait {
     
     public void verifier(){
         expr.setRacine(classeRacine);
+        
     	expr.verifier();
     }
     
+    
+    
     public String toMIPS(){
-    	
     	StringBuilder strng=new StringBuilder(".text\nmain :\n");
-        strng.append("move $s7, $sp \n");
-        strng.append("addi $sp, $sp, " + TDS.getInstance().sortieBloc().getTailleZoneVariable()+"\n");
         strng.append(expr.toMIPS());
         strng.append("\nend :\n" +
         		"move $v1, $v0 \t # copie de v0 dans v1 pour permettre les tests de plic0\n" +
@@ -44,5 +44,10 @@ public class BlocDInstructions extends ArbreAbstrait {
     public String toString() {
         return expr.toString() ;
     }
+
+	@Override
+	public void ajoutVar() {
+		expr.ajoutVar();
+	}
 
 }

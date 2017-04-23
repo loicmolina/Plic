@@ -36,4 +36,10 @@ public class ListeIdf extends ArbreAbstrait{
 		return null;
 	}
 
+	@Override
+	public void ajoutVar() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

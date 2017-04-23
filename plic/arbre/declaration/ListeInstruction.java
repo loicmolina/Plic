@@ -33,11 +33,19 @@ public class ListeInstruction extends ArbreAbstrait {
 		return sb.toString();
 	}
 	
-	public void addInTable(){		
+	public void setNoBloc(){		
 		for(Instruction i : ali){
 			i.setNoBloc(TDS.getInstance().getBlocCourant());
-			i.addInTable();
+			//i.addInTable();
 		}
+	}
+
+	@Override
+	public void ajoutVar() {
+		for (Instruction i : ali){
+			i.ajoutVar();
+		}
+		
 	}
 	
 }
