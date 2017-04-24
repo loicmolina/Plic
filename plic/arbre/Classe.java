@@ -59,7 +59,11 @@ public class Classe extends ArbreAbstrait {
 		if(ld != null)
 			sb.append(ld.toMIPS());
 		sb.append("move $sp, $s7 \n");
-		sb.append("move $s7, "+TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"($s7)\n");
+		if(TDS.getInstance().getDico(noBloc).getnoBlocEnglobant() == 0){
+			sb.append("addi $s7, $s7, 0\n");
+		}else{
+			sb.append("addi $s7, $s7, "+-TDS.getInstance().getDico(TDS.getInstance().getDico(noBloc).getnoBlocEnglobant()).getTailleZoneVariable()+"\n");
+		}
 		return sb.toString();
 	}
 

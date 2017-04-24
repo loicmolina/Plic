@@ -87,7 +87,7 @@ public class Idf extends Expression{
 		
 		if (TDS.getInstance().sortieBloc().identifier(new Entree(this.getNom())) == null){
 			//TDS.getInstance().setBlocCourant(TDS.getInstance().sortieBloc().getnoBlocEnglobant());
-			sb.append("lw $v0, "+ (symbole.getPosition() + TDS.getInstance().sortieBloc().getTailleZoneVariable())+"($s7)\n\n");
+			sb.append("lw $v0, "+ (symbole.getPosition() - TDS.getInstance().getDico(TDS.getInstance().sortieBloc().getnoBlocEnglobant()).getTailleZoneVariable())+"($s7)\n\n");
 		}else{
 			sb.append("lw $v0, "+ symbole.getPosition()+"($s7)\n\n");
 		}
