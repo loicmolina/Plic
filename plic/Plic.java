@@ -26,10 +26,9 @@ public class Plic {
         try {
             AnalyseurSyntaxique analyseur = new AnalyseurSyntaxique(new AnalyseurLexical(new FileReader(fichier)));
             ArbreAbstrait arbre = (ArbreAbstrait) analyseur.parse().value;
-            
+            arbre.setRacine(racine);
             arbre.ajoutVar();
             
-            arbre.setRacine(racine);
             arbre.verifier();
             
             

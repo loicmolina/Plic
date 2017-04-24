@@ -47,6 +47,7 @@ public class BlocDInstructions extends ArbreAbstrait {
 
 	@Override
 	public void ajoutVar() {
+		expr.setRacine(classeRacine);
 		expr.ajoutVar();
 	}
 

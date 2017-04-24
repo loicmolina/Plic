@@ -7,7 +7,7 @@ import plic.exceptions.DoubleDeclarationException;
 
 public class DictionnaireLocal {
 
-	private static int dep;
+	protected int dep;
 	protected HashMap<Entree,Symbole> table;
 	protected int noBlocEnglobant, noBloc;
 
@@ -19,13 +19,14 @@ public class DictionnaireLocal {
 	}
 	
 	public void ajouter(Entree e, Symbole s, int noligne){
-		//System.out.println("Ajout dans un dico local de "+e.getNom()+" :\nnoBlocEnglobant : "+noBlocEnglobant);
-		//System.out.println("noBloc : "+noBloc);
+		System.out.println("Ajout dans un dico local de "+e.getNom()+" :\nnoBlocEnglobant : "+noBlocEnglobant);
+		System.out.println("noBloc : "+noBloc);
 		//System.out.println(TDS.getInstance().getBlocCourant());
 		if(identifier(e) != null){
 			throw new DoubleDeclarationException(e.getNom()+" a deja ete declare",noligne);
 		}
 		table.put(e, s);
+		System.out.println("pos : "+s.getPosition());
 		if (s.getType().equals("entier")){
 			dep = dep -4;
 		}else{
@@ -35,7 +36,8 @@ public class DictionnaireLocal {
 					nb = c.getNoBloc();
 				}
 			}
-			dep = dep - TDS.getInstance().getDico(nb).getTailleZoneVariable();
+			System.out.println(s.getType()+nb+" "+TDS.getInstance().getDico(nb).getTailleZoneVariable());
+			dep = dep + TDS.getInstance().getDico(nb).getTailleZoneVariable();
 		}		
 	}
 	

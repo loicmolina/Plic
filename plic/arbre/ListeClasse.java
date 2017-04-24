@@ -33,7 +33,7 @@ public class ListeClasse extends ArbreAbstrait {
 		}	
 		
 		if (!classeRacineExistante){
-			throw new NomClasseConstructeurException("La classe indiqu�e en argument n'existe pas",noLigne);
+			throw new NomClasseConstructeurException("La classe indiqu�e en argument n'existe pas",noLigne);
 		}
 	}
 
@@ -50,8 +50,18 @@ public class ListeClasse extends ArbreAbstrait {
 
 	@Override
 	public void ajoutVar() {
+		//on ajoute les variable aux dictionnaire en commencant par la classe racine 
+		//(puis par récursivité celle utilisé par cette dernière)
 		for (Classe c : listeClasse){
-			c.ajoutVar();
+			if (c.getIdf().equals(this.classeRacine)){			
+				c.ajoutVar();
+			}
+		}
+		//On ajoute toute les variable des classes non utilisées
+		for (Classe c : listeClasse){
+			if(!c.getVarAdd()){
+				c.ajoutVar();
+			}
 		}
 		
 	}
