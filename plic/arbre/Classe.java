@@ -1,17 +1,20 @@
 package plic.arbre;
 
 import plic.arbre.declaration.ListeDeclaration;
+import plic.exceptions.DoubleDeclarationException;
 import plic.tds.TDS;
 
 public class Classe extends ArbreAbstrait {
 	public ListeDeclaration ld ;
 	public String idf;
 	public boolean isRacine;
+	public boolean varAdd;
 	public int noBloc;
 	
 	public Classe(int no, String identif, ListeDeclaration list) {
 		super(no);
 		isRacine = false;
+		varAdd = false;
 		noBloc = TDS.getInstance().getBlocCourant();
 		ld = list;
 		idf=identif;
@@ -42,6 +45,10 @@ public class Classe extends ArbreAbstrait {
 	public void setIdf(String idf) {
 		this.idf = idf;
 	}
+	
+	public ListeDeclaration getLD(){
+		return ld;
+	}
 
 	@Override
 	public String toMIPS() {
@@ -51,6 +58,7 @@ public class Classe extends ArbreAbstrait {
         
 		if(ld != null)
 			sb.append(ld.toMIPS());
+		sb.append("move $sp, $s7 \n");
 		return sb.toString();
 	}
 
@@ -58,7 +66,12 @@ public class Classe extends ArbreAbstrait {
 	public void ajoutVar() {
 		if (ld!=null){
 			ld.ajoutVar();
-		}		
+		}	
+		varAdd = true;
+	}
+
+	public boolean getVarAdd() {
+		return varAdd;
 	}
 
 }

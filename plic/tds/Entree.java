@@ -5,7 +5,6 @@ import plic.arbre.expression.Idf;
 public class Entree {
 	protected String idf;
 	
-	
 	public Entree(String s){
 		idf = s;
 	}

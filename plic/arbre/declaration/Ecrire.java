@@ -43,6 +43,7 @@ public class Ecrire extends Instruction {
 		}
 		if(csteChaine == null){
 			sb.append(expression.toMIPS());
+			
 			if(expression.getType().equals("entier")){
 				sb.append("#----Ecriture d'une expression Arithmetique----\n");
 				sb.append("move $t8, $v0\n");

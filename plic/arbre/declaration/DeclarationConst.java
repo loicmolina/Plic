@@ -21,11 +21,13 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public String toMIPS() {
+		TDS.getInstance().setBlocCourant(noBloc);
 		StringBuilder sb = new StringBuilder();
 		if(instru != null){
 			sb.append("move $s7, $sp \n");
 			sb.append("addi $sp, $sp, " + TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"\n");
 			sb.append(instru.toMIPS());
+			sb.append("move $sp, $s7 \n");
 		}
 		return sb.toString();
 	}
@@ -40,9 +42,11 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public void setNoBlocInstruction() {
-		noBloc  = TDS.getInstance().getBlocCourant();
+		
 		TDS.getInstance().entreeBloc();
 		TDS.getInstance().setBlocCourant(TDS.getInstance().getCompteur());
+		
+		noBloc  = TDS.getInstance().getBlocCourant();
 		if(instru != null)
 			instru.setNoBloc();
 

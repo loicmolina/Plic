@@ -23,7 +23,7 @@ public class ListeDeclaration extends ArbreAbstrait{
 		for(Declaration d : ald){
 			d.verifier();
 			if (d instanceof DeclarationConst && !idfClasse.equals(((DeclarationConst) d).getIdf())){
-				throw new NomClasseConstructeurException("Le nom du constructeur ne correspond pas à celui de la classe",noLigne);
+				throw new NomClasseConstructeurException("Le nom du constructeur ne correspond pas ï¿½ celui de la classe",noLigne);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class ListeDeclaration extends ArbreAbstrait{
 	@Override
 	public void ajoutVar() {
 		for (Declaration d : ald){
-			d.ajoutVar();
+				d.ajoutVar();
 		}
 	}
 }

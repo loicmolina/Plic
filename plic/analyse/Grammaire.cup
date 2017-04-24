@@ -128,6 +128,15 @@ PROG    ::= 	LCLASSE:lc
                 
 LCLASSE ::= 	LCLASSE:lc CLASSE:c
 				{:
+					boolean existe = false;
+					for(Classe cl : lc.getListeClasse()){
+						if(cl.getIdf().equals(c.getIdf())){
+							existe = true;
+						}
+					}
+					if(existe){
+						throw new DoubleDeclarationException("La classe "+c.getIdf()+" a deja ete declare",cleft+1);
+					}
 					lc.ajouter(c);
 					RESULT = lc;
 				:}

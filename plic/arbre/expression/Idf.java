@@ -83,7 +83,15 @@ public class Idf extends Expression{
 	public String toMIPS() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("#---Recuperation de la variable "+nom+"---\n");
-		sb.append("lw $v0, "+ symbole.getPosition() + "($s7)\n\n");
+		
+		
+		if (TDS.getInstance().sortieBloc().identifier(new Entree(this.getNom())) == null){
+			//TDS.getInstance().setBlocCourant(TDS.getInstance().sortieBloc().getnoBlocEnglobant());
+			sb.append("lw $v0, "+ (symbole.getPosition() + TDS.getInstance().sortieBloc().getTailleZoneVariable())+"($s7)\n\n");
+		}else{
+			sb.append("lw $v0, "+ symbole.getPosition()+"($s7)\n\n");
+		}
+		
 		return sb.toString() ;
 	}
 
