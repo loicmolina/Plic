@@ -20,11 +20,9 @@ public class Instanciation extends Instruction {
 
 	@Override
 	public void verifier() {
-		TDS.getInstance().setBlocCourant(TDS.getInstance().getDico(noBloc).getnoBlocEnglobant());
-		System.out.println(noBloc+ " !");
+		TDS.getInstance().setBlocCourant(noBloc);
 		acces.verifier();
-		idf.verifier();
-		if (!idf.getType().equals(acces.getIdf().getType())){
+		if (!idf.getNom().equals(acces.getIdf().getType())){
 			throw new NonConcordanceException("Les deux types ne correspondent pas",noLigne);
 		}
 		

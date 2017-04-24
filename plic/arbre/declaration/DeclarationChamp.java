@@ -38,6 +38,7 @@ public class DeclarationChamp extends Declaration{
 
 	@Override
 	public void ajoutVar() {
+		
 		if(!type.equals("entier")){
 			for(Classe c : TDS.getInstance().getListeClasse()){
 				if(c.getIdf().equals(type) && !c.getVarAdd()){
