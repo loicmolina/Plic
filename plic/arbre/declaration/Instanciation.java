@@ -39,17 +39,18 @@ public class Instanciation extends Instruction {
 				if(c.getLD() != null){
 					sb.append(c.getLD().toMIPS());
 				}
-				
-				for (int i = 0; i <= TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable() ; i+= 4){
-					sb.append("lw $v0, "+ -i +"($s7)\n\n" );
+				for (int i = 0; i > TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable() ; i-= 4){
+					sb.append("lw $v0, "+ i +"($s7)\n\n" );
+					
 					if (TDS.getInstance().sortieBloc().identifier(new Entree(idf.getNom())) == null){
-						sb.append("sw $v0, "+ (acces.getIdf().getDeplacement() + TDS.getInstance().sortieBloc().getTailleZoneVariable()  + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable() )+"($s7)\n\n");
+						sb.append("sw $v0, "+ (acces.getIdf().getDeplacement() + TDS.getInstance().sortieBloc().getTailleZoneVariable()  + i + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable())+"($s7)\n\n");
 					}else{
-						sb.append("sw $v0, "+ (acces.getIdf().getDeplacement() + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable() ) +"($s7)\n\n");
+						sb.append("sw $v0, "+ (acces.getIdf().getDeplacement() + i + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable()) +"($s7)\n\n");
 					}
 				}
 				
 				sb.append("move $sp, $s7 \n");
+				sb.append("move $s7, "+TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"($s7)\n");
 			}
 		}
 		return sb.toString();

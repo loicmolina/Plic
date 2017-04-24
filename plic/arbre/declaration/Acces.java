@@ -33,7 +33,7 @@ public class Acces extends ArbreAbstrait{
 			//TDS.getInstance().setBlocCourant(TDS.getInstance().sortieBloc().getnoBlocEnglobant());
 			sb.append("sw $v0, "+ (idf.getDeplacement() + TDS.getInstance().sortieBloc().getTailleZoneVariable())+"($s7)\n\n");
 		}else{
-			sb.append("sw $v0, "+ idf.getDeplacement()+"($s7)\n\n");
+			sb.append("sw $v0, " + idf.getDeplacement() + "($s7)\n\n");
 		}
 		
 		return sb.toString();

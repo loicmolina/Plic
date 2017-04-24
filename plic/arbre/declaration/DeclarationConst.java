@@ -28,6 +28,7 @@ public class DeclarationConst extends Declaration{
 			sb.append("addi $sp, $sp, " + TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"\n");
 			sb.append(instru.toMIPS());
 			sb.append("move $sp, $s7 \n");
+			sb.append("move $s7, "+TDS.getInstance().getDico(noBloc).getTailleZoneVariable()+"($s7) \n");
 		}
 		return sb.toString();
 	}
