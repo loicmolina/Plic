@@ -26,7 +26,7 @@ public class ListeDeclaration extends ArbreAbstrait{
 				return d;
 			}
 		}
-		return null;
+		return ald.get(0);
 	}
 
 	@Override
