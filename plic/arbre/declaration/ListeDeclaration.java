@@ -20,6 +20,10 @@ public class ListeDeclaration extends ArbreAbstrait{
 		ald.add(d);	
 	}
 	
+	public ArrayList<Declaration> getAld() {
+		return ald;
+	}
+
 	public Declaration getD(int n){
 		for(Declaration d : ald){
 			if(d instanceof DeclarationConst && ((DeclarationConst) d).getNum() == n){
@@ -36,10 +40,22 @@ public class ListeDeclaration extends ArbreAbstrait{
 			if (d instanceof DeclarationConst){
 				nbrConst ++;
 				((DeclarationConst) d).setNum(nbrConst);
+				for(Declaration dl : ald){
+					if(dl instanceof DeclarationConst){
+						if(!d.equals(dl)){
+							if(((DeclarationConst) d).getListparam() != null && ((DeclarationConst) dl).getListparam() != null){
+								if(((DeclarationConst) d).getListparam().getAlp().equals(((DeclarationConst) dl).getListparam().getAlp())){
+									throw new ConstructeurException("Deux Constructeur avec les même parametre",noLigne);
+								}
+							}else if (((DeclarationConst) d).getListparam() == null && ((DeclarationConst) dl).getListparam() == null){
+								throw new ConstructeurException("Deux Constructeur avec les même parametre",noLigne);
+
+							}
+						}
+					}
+				}
 			}
-			if(nbrConst > 1){
-				throw new ConstructeurException("Il y a trop de constructeur",noLigne);
-			}
+
 			if (d instanceof DeclarationConst && !idfClasse.equals(((DeclarationConst) d).getIdf())){
 				throw new ConstructeurException("Le nom du constructeur ne correspond pas � celui de la classe",noLigne);
 			}

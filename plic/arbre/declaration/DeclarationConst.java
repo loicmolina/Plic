@@ -1,5 +1,9 @@
 package plic.arbre.declaration;
 
+import plic.arbre.Classe;
+import plic.exceptions.TypeInexistantException;
+import plic.tds.Entree;
+import plic.tds.Symbole;
 import plic.tds.TDS;
 
 public class DeclarationConst extends Declaration{
@@ -7,13 +11,15 @@ public class DeclarationConst extends Declaration{
 	protected ListeInstruction instru;
 	protected String idf;
 	protected int num;
+	protected ListeParametre listparam;
 	
 
-	public DeclarationConst(int no, ListeInstruction i, String id ,int nbloc ) {
+	public DeclarationConst(ListeParametre lp,int no, ListeInstruction i, String id ,int nbloc ) {
 		super(no, nbloc);
 		instru = i;
 		idf = id;
 		num = 0;
+		listparam = lp;
 	}
 	
 	public String getIdf(){
@@ -44,10 +50,37 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public void verifier() {
+		if(listparam != null){
+			boolean typeCorrect = false;
+			for(Parametre p : listparam.getAlp()){
+				if (p.getType().equals("entier")){
+					typeCorrect = true;
+				}
+				if (p.getType().equals("bool")){
+					typeCorrect = true;
+				}		
+				for (Classe c : TDS.getInstance().getListeClasse()){
+					if (p.getType().equals(c.getIdf())){
+						typeCorrect = true;
+					}
+				}
+				if (!typeCorrect){
+					throw new TypeInexistantException("Le type du parametre "+p.getIdf()+" est inexistant",noLigne);
+				}
+				typeCorrect = false;
+			}
+		}
+		
+		
+		
 		TDS.getInstance().setBlocCourant(noBloc);
 		if(instru != null)
 			instru.verifier();
 		
+	}
+
+	public ListeParametre getListparam() {
+		return listparam;
 	}
 
 	@Override
@@ -66,6 +99,22 @@ public class DeclarationConst extends Declaration{
 
 	@Override
 	public void ajoutVar() {
+		if(listparam != null){
+			for(Parametre p : listparam.getAlp()){
+				if(!p.getType().equals("entier")){
+					for(Classe c : TDS.getInstance().getListeClasse()){
+						if(c.getIdf().equals(p.getType()) && !c.getVarAdd()){
+							c.ajoutVar();
+						}
+					}
+				}
+				int position;
+		
+				position = TDS.getInstance().getDico(noBloc).getTailleZoneVariable();
+				TDS.getInstance().setBlocCourant(noBloc);
+				TDS.getInstance().ajouter(new Entree(p.getIdf()), new Symbole(position,p.getType(),"publique"),noLigne);				
+			}
+		}
 		if (instru != null){
 			instru.ajoutVar();
 		}

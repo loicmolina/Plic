@@ -1,6 +1,9 @@
 package plic.arbre.declaration;
 
+import java.util.ArrayList;
+
 import plic.arbre.Classe;
+import plic.arbre.expression.Expression;
 import plic.arbre.expression.Idf;
 import plic.exceptions.NonConcordanceException;
 import plic.tds.Entree;
@@ -9,13 +12,15 @@ import plic.tds.TDS;
 public class Instanciation extends Instruction {
 	protected Acces acces;
 	protected Idf idf;
+	protected ArrayList<Expression> listE;
 	
 	
 
-	public Instanciation(int no, Acces a , Idf i , int nblc) {
+	public Instanciation(ArrayList<Expression> li,int no, Acces a , Idf i , int nblc) {
 		super(no, nblc);
 		acces = a ;
 		idf = i;
+		listE = li;
 	}
 
 	@Override
@@ -25,6 +30,22 @@ public class Instanciation extends Instruction {
 		if (!idf.getNom().equals(acces.getIdf().getType())){
 			throw new NonConcordanceException("Les deux types ne correspondent pas",noLigne);
 		}
+		/*
+		for (Classe c : TDS.getInstance().getListeClasse()){
+			if (c.getIdf().equals(idf.getNom())){
+				boolean correspond = false;
+				for(Declaration d : c.getLD().getAld()){
+					if(d instanceof DeclarationConst){
+						if(((DeclarationConst) d).getListparam() != null && listE != null){
+							
+						}
+					}
+				}
+				
+			}
+		}
+			*/
+		
 		
 	}
 
@@ -36,6 +57,7 @@ public class Instanciation extends Instruction {
 				sb.append("move $s7, $sp \n");
 				sb.append("addi $sp, $sp, " + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable()+"\n");
 		        
+				//utilise le premier constructeur (temporaire, on doit tester quel est le constructeur est utilisé)
 				if(c.getLD() != null){
 					sb.append(c.getLD().getD(1).toMIPS());
 				}

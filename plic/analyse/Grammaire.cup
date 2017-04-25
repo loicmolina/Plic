@@ -105,6 +105,9 @@ non terminal ListeClasse LCLASSE;
 non terminal Condition CONDITION;
 non terminal DeclarationVar DECL_VAR;
 non terminal Instanciation INSTANCIATION;
+non terminal Parametre PARAMETRE;
+non terminal ListeParametre LPARAMETRE;
+non terminal ArrayList<Expression> LEXP;
 
 
 precedence left INF, SUP ;
@@ -169,7 +172,13 @@ CLASSE ::=		CLASS IDF:i LDECL:l FIN
 INSTANCIATION ::= ACCES:a EGAL NOUVEAU IDF:i PAROUV PARFER POINTVIRGULE	
 					{:
 						Idf idf = new Idf(ileft+1,i);
-						RESULT = new Instanciation(aleft+1,a,idf,0);
+						RESULT = new Instanciation(null,aleft+1,a,idf,0);
+					:}
+					|
+					ACCES:a EGAL NOUVEAU IDF:i PAROUV LEXP:li PARFER POINTVIRGULE	
+					{:
+						Idf idf = new Idf(ileft+1,i);
+						RESULT = new Instanciation(li,aleft+1,a,idf,0);
 					:}
 					;			
 				
@@ -239,17 +248,44 @@ TYPE 	::= 	ENTIER:e
 				{: RESULT = i; :}
 				;
 				
-DECL_CONST ::= 	STATUT:s IDF:i PAROUV PARFER DEBUT LINSTR:l FIN
+DECL_CONST ::= 	STATUT:s IDF:i PAROUV  PARFER DEBUT LINSTR:l FIN
 				{: 
-					RESULT = new DeclarationConst(lleft+1,l,i, 0); 
+					RESULT = new DeclarationConst(null,lleft+1,l,i, 0); 
 				:}
 				|
-				STATUT:s IDF:i DEBUT FIN
+				STATUT:s IDF:i PAROUV PARFER DEBUT FIN
 				{: 
-					RESULT = new DeclarationConst(ileft+1,null,i, 0); 
+					RESULT = new DeclarationConst(null,ileft+1,null,i, 0); 
+					
+				:}
+				|
+				STATUT:s IDF:i PAROUV LPARAMETRE:lp PARFER DEBUT LINSTR:l FIN
+				{: 
+					RESULT = new DeclarationConst(lp,lleft+1,l,i, 0); 
+				:}
+				|
+				STATUT:s IDF:i PAROUV LPARAMETRE:lp PARFER DEBUT FIN
+				{: 
+					RESULT = new DeclarationConst(lp,ileft+1,null,i, 0); 
 					
 				:}
 			;
+			
+PARAMETRE ::=	TYPE:t IDF:i
+				{:
+					RESULT = new Parametre(t,i);
+				:}
+				;
+				
+LPARAMETRE ::= 	LPARAMETRE:l VIRGULE PARAMETRE:p
+				{:	l.ajouter(p);
+					RESULT = l; :}
+		|
+				PARAMETRE:p
+				{: ListeParametre lp = new ListeParametre();
+					lp.ajouter(p);
+					RESULT = lp; :}
+				;
 			
 DECL_VAR ::=	TYPE:t LIDF:li POINTVIRGULE
 				{:
@@ -342,6 +378,16 @@ ECRIRE 	::=		WRITE:w EXPR:e POINTVIRGULE
 				{: Ecrire ec = new Ecrire(cleft+1,c, 0);
 				
 				RESULT = ec; :}
+				;
+    
+LEXP ::= LEXP:l VIRGULE EXPR:e
+				{:	l.add(e);
+					RESULT = l; :}
+		|
+				EXPR:e
+				{: ArrayList<Expression> lp = new ArrayList<Expression>();
+					lp.add(e);
+					RESULT = lp; :}
 				;
     
 EXPR    ::=     EXPR:g  PLUS  EXPR:d
