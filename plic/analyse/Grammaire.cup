@@ -30,6 +30,7 @@ parser code {:
         lesTerminaux.put(new Integer(CodesLexicaux.EGAL), "=") ;
         lesTerminaux.put(new Integer(CodesLexicaux.DIFF), "!=") ;
         lesTerminaux.put(new Integer(CodesLexicaux.POINTVIRGULE), ";") ;
+        lesTerminaux.put(new Integer(CodesLexicaux.POINT), ".") ;
         lesTerminaux.put(new Integer(CodesLexicaux.VIRGULE), ",") ;
         lesTerminaux.put(new Integer(CodesLexicaux.ET), "et") ;
         lesTerminaux.put(new Integer(CodesLexicaux.OU), "ou") ;
@@ -82,7 +83,7 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE;
+terminal Symbol    PLUS, MOINS, MULT, DIV, PAROUV, PARFER , POINTVIRGULE, VIRGULE, POINT;
 terminal Symbol    SUP, INF, EGALEGAL, DIFF, ET, OU, NON, EGAL ;
 terminal String    CONSTANTEINT, CONSTANTEBOOL, IDF,PRIVEE,PUBLIQUE,ENTIER,DEBUT,FIN,CLASS, WRITE, CONSTANTECHAINE, SI, ALORS , SINON, FSI, NOUVEAU;
    
@@ -165,7 +166,7 @@ CLASSE ::=		CLASS IDF:i LDECL:l FIN
 					:}
 				;		
 				
-INSTANCIATION ::= ACCES:a EGAL NOUVEAU IDF:i POINTVIRGULE	
+INSTANCIATION ::= ACCES:a EGAL NOUVEAU IDF:i PAROUV PARFER POINTVIRGULE	
 					{:
 						Idf idf = new Idf(ileft+1,i);
 						RESULT = new Instanciation(aleft+1,a,idf,0);
@@ -238,7 +239,7 @@ TYPE 	::= 	ENTIER:e
 				{: RESULT = i; :}
 				;
 				
-DECL_CONST ::= 	STATUT:s IDF:i DEBUT LINSTR:l FIN
+DECL_CONST ::= 	STATUT:s IDF:i PAROUV PARFER DEBUT LINSTR:l FIN
 				{: 
 					RESULT = new DeclarationConst(lleft+1,l,i, 0); 
 				:}
@@ -319,7 +320,15 @@ AFFECT 		::= ACCES:a EGAL EXPR:e POINTVIRGULE
 ACCES	::=		IDF:i
 				{:	
 					Idf idf = new Idf(ileft+1,i);
-					Acces a = new Acces(ileft+1,idf);
+					Acces a = new Acces(ileft+1,idf,null);
+					RESULT = a ;
+				:}	
+				|
+				IDF:i POINT IDF:j
+				{:	
+					Idf idf = new Idf(ileft+1,i);
+					Idf idf2 = new Idf(jleft+1,j);
+					Acces a = new Acces(ileft+1,idf,idf2);
 					RESULT = a ;
 				:}			
 				;

@@ -3,7 +3,7 @@ package plic.arbre;
 import java.util.ArrayList;
 
 import plic.arbre.declaration.Declaration;
-import plic.exceptions.NomClasseConstructeurException;
+import plic.exceptions.ConstructeurException;
 
 public class ListeClasse extends ArbreAbstrait {
 	protected ArrayList<Classe> listeClasse;
@@ -33,7 +33,7 @@ public class ListeClasse extends ArbreAbstrait {
 		}	
 		
 		if (!classeRacineExistante){
-			throw new NomClasseConstructeurException("La classe indiqu�e en argument n'existe pas",noLigne);
+			throw new ConstructeurException("La classe indiqu�e en argument n'existe pas",noLigne);
 		}
 	}
 

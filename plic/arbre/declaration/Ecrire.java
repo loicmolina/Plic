@@ -87,10 +87,4 @@ public class Ecrire extends Instruction {
 		
 	}
 
-	/*
-	public void addInTable() {
-		// TODO Auto-generated method stub
-		
-	}*/
-
 }

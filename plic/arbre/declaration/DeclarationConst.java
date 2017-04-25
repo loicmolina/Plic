@@ -6,17 +6,26 @@ public class DeclarationConst extends Declaration{
 
 	protected ListeInstruction instru;
 	protected String idf;
+	protected int num;
 	
 
 	public DeclarationConst(int no, ListeInstruction i, String id ,int nbloc ) {
 		super(no, nbloc);
 		instru = i;
 		idf = id;
-		
+		num = 0;
 	}
 	
 	public String getIdf(){
 		return idf;
+	}
+	
+	public int getNum(){
+		return num;
+	}
+	
+	public void setNum(int n){
+		num = n;
 	}
 
 	@Override

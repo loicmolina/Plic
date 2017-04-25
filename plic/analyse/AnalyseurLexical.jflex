@@ -48,6 +48,7 @@ espace = {finDeLigne}  | [ \t\f]
 
 ";"					{ return symbol(CodesLexicaux.POINTVIRGULE); }
 ","					{ return symbol(CodesLexicaux.VIRGULE); }
+"."					{ return symbol(CodesLexicaux.POINT); }
 
 "+"                	{ return symbol(CodesLexicaux.PLUS); }
 "-"                	{ return symbol(CodesLexicaux.MOINS); }

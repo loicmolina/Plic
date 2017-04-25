@@ -37,7 +37,7 @@ public class Instanciation extends Instruction {
 				sb.append("addi $sp, $sp, " + TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable()+"\n");
 		        
 				if(c.getLD() != null){
-					sb.append(c.getLD().toMIPS());
+					sb.append(c.getLD().getD(1).toMIPS());
 				}
 				for (int i = 0; i > TDS.getInstance().getDico(c.getNoBloc()).getTailleZoneVariable() ; i-= 4){
 					sb.append("lw $v0, "+ i +"($s7)\n\n" );
@@ -62,10 +62,5 @@ public class Instanciation extends Instruction {
 		
 	}
 
-	
-	/*public void addInTable() {
-		// TODO Auto-generated method stub
-		
-	}*/
 
 }
